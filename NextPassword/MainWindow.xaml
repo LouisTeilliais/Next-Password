@@ -1,12 +1,14 @@
-﻿<Window x:Class="NextPassword.MainWindow"
+﻿<Window x:Class="NextPassword.App"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        
         xmlns:local="clr-namespace:NextPassword"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-
+        <Label Content="Next password" HorizontalAlignment="Left" Margin="361,85,0,0" VerticalAlignment="Top" Height="31" Width="88" Background="Red"/>
+        <TextBlock Text="{Binding Source={StaticResource AppInstance}, Path=nextPasswordName}" Width="150" Height="75" Background="Blue" Margin="509,56,141,303"/>
     </Grid>
 </Window>
