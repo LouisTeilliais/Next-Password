@@ -12,10 +12,6 @@ namespace NextPassword
     public partial class App : Application
     {
         public NextPasswordApp AppTest { get; set; }
-        public App()
-        {
-            AppTest = new NextPasswordApp();
-        }
 
     }
 
