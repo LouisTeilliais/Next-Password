@@ -3,15 +3,23 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:NextPassword.MVVM.Views"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Login"
-      Background="White"
+      Background="#F0F0F0"
       >
-   
 
     <Grid>
-        <TextBlock>Login</TextBlock>
+        <Image Height="100" Width="100" Margin="356,31,344,319" Source="C:\Users\lteilliais\Documents\Ynov\Next-Password\NextPassword\MVVM\Images\logo.png"/>
+        <TextBox HorizontalAlignment="Center" Margin="0,179,0,0" TextWrapping="Wrap" Text="Email" VerticalAlignment="Top" Width="176" Height="35"/>
+        <Button Foreground="White" Background="#3B97CB" Content="Se connecter" HorizontalAlignment="Center" Margin="0,258,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.918,0.695" Click="Button_Click" Width="176" Height="33"/>
+
+        <TextBlock HorizontalAlignment="Left" Height="18" Margin="330,296,0,0" TextWrapping="Wrap" Text="Pas de compte ? " VerticalAlignment="Top" Width="93"/>
+        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Margin="418,296,0,0" Width="101" >
+            <Hyperlink NavigateUri="Register.xaml" >Inscrivez-vous</Hyperlink>
+        </TextBlock>
+        <TextBox HorizontalAlignment="Center" TextWrapping="Wrap" Text="Mot de passe" VerticalAlignment="Top" Width="176" Height="34" Margin="0,219,0,0"/>
+
+
     </Grid>
 </Page>

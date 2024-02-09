@@ -1,5 +1,8 @@
-﻿using NextPassword.MVVM.Views;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -10,17 +13,21 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace NextPassword
+namespace NextPassword.MVVM.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Logique d'interaction pour AddPassword.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class AddPassword : Page
     {
-        public MainWindow()
+        public AddPassword()
         {
             InitializeComponent();
-            NextPassword.Navigate(new Register());
+        }
+
+        private void TextBox_TextChanged_1(object sender, TextChangedEventArgs e)
+        {
+
         }
     }
 }

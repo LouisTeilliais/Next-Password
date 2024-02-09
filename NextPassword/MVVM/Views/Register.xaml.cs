@@ -36,6 +36,11 @@ namespace NextPassword.MVVM.Views
 
         }
 
+        private void TextBox_TextChanged_1(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
         /*private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
             // Open the URL in the default web browser
