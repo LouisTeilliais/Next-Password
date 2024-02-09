@@ -9,6 +9,6 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Label Content="Next password" HorizontalAlignment="Left" Margin="361,85,0,0" VerticalAlignment="Top" Height="31" Width="88" Background="Red"/>
-        <TextBlock Text="{Binding Source={StaticResource AppInstance}, Path=nextPasswordName}" Width="150" Height="75" Background="Blue" Margin="509,56,141,303"/>
+        <TextBlock Name="totalRecording" Text="{Binding test}" Width="150" Height="75" Background="Blue" Margin="509,56,141,303"/>
     </Grid>
 </Window>

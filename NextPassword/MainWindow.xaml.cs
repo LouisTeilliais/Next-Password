@@ -16,9 +16,11 @@ namespace NextPassword
     /// </summary>
     public partial class MainWindow : Window
     {
+        public string test { get; set; }
         public MainWindow()
         {
             InitializeComponent();
+            totalRecording.DataContext = new MainWindow() { test = "Hello World" };
         }
     }
 }
