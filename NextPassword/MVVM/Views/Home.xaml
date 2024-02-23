@@ -1,0 +1,18 @@
+﻿<Page x:Class="NextPassword.MVVM.Views.Home"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:NextPassword.MVVM.Views"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Home"
+      Background="#F0F0F0"
+      >
+
+    <Grid>
+        <TextBlock FontSize="15" TextAlignment="Center" HorizontalAlignment="Center" Height="30" Margin="0,70,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="204"><Run Language="fr-fr" Text="Tous mes mots de passe"/></TextBlock>
+        <Button Foreground="White" Background="#3B97CB" Content="Ajouter" HorizontalAlignment="Left" Margin="438,364,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.918,0.695" Click="Button_Click" Width="64" Height="33"/>
+
+    </Grid>
+</Page>

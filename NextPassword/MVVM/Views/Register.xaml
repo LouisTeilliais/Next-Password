@@ -10,11 +10,19 @@
       >
     <Grid>
         <Image Height="100" Width="100" Margin="350,7,350,343" Source="C:\Users\lteilliais\Documents\Ynov\Next-Password\NextPassword\MVVM\Images\logo.png"/>
+<<<<<<< HEAD
         <TextBox Name="Name" HorizontalAlignment="Center" Margin="0,144,0,0" TextWrapping="Wrap" Text="Prénom" VerticalAlignment="Top" Width="176" Height="38" TextChanged="TextBox_TextChanged_Name"/>
         <TextBox Name="Surname" HorizontalAlignment="Center" Margin="0,187,0,0" TextWrapping="Wrap" Text="Nom" VerticalAlignment="Top" Width="176" Height="36" TextChanged="TextBox_TextChanged_Surname"/>
         <TextBox Name="Email" HorizontalAlignment="Center" Margin="0,228,0,0" TextWrapping="Wrap" Text="Email" VerticalAlignment="Top" Width="176" Height="36" TextChanged="TextBox_TextChanged_Email"/>
         <TextBox Name="Password" HorizontalAlignment="Center" Margin="0,269,0,0" TextWrapping="Wrap" Text="Mot de passe" VerticalAlignment="Top" Width="176" Height="37" TextChanged="TextBox_TextChanged_Password"/>
         <Button Name="Submit" Foreground="White" Background="#3B97CB" Content="S'inscrire" HorizontalAlignment="Center" Margin="0,311,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.918,0.695" Click="Button_Click" Width="176" Height="31" IsEnabled="False"/>
+=======
+        <TextBox  HorizontalAlignment="Center" Margin="0,144,0,0" TextWrapping="Wrap" Text="Prénom" VerticalAlignment="Top" Width="176" Height="38" TextChanged="TextBox_TextChanged_1"/>
+        <TextBox HorizontalAlignment="Center" Margin="0,187,0,0" TextWrapping="Wrap" Text="Nom" VerticalAlignment="Top" Width="176" Height="36"/>
+        <TextBox HorizontalAlignment="Center" Margin="0,228,0,0" TextWrapping="Wrap" Text="Email" VerticalAlignment="Top" Width="176" Height="36"/>
+        <TextBox HorizontalAlignment="Center" Margin="0,269,0,0" TextWrapping="Wrap" Text="Mot de passe" VerticalAlignment="Top" Width="176" Height="37" />
+        <Button Foreground="White" Background="#3B97CB" Content="S'inscrire" HorizontalAlignment="Center" Margin="0,311,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.918,0.695" Click="Button_Click" Width="176" Height="31"/>
+>>>>>>> 219c4f818d4965a9c71394c39831899f5a13ee63
 
         <TextBlock HorizontalAlignment="Left" Height="18" Margin="334,350,0,0" TextWrapping="Wrap" Text="Déjà inscrit ? " VerticalAlignment="Top" Width="71"/>
         <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Margin="405,350,0,0" Width="101" >

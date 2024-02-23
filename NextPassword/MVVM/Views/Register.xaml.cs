@@ -26,6 +26,7 @@ namespace NextPassword.MVVM.Views
             InitializeComponent();
         }
 
+<<<<<<< HEAD
         public string name;
         public string surname;
         public string email;
@@ -65,6 +66,21 @@ namespace NextPassword.MVVM.Views
         {
             if ()
             submit.IsEnabled = true;
+=======
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void TextBox_TextChanged_1(object sender, TextChangedEventArgs e)
+        {
+
+>>>>>>> 219c4f818d4965a9c71394c39831899f5a13ee63
         }
 
         /*private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)

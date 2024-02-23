@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿using System.Text;
 using System.Windows;
 using System;
@@ -46,4 +47,31 @@ namespace NextPassword
             dbPassword.Text = password;
         }
     }
+=======
+﻿using NextPassword.MVVM.Views;
+using System.Text;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+
+namespace NextPassword
+{
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : Window
+    {
+        public MainWindow()
+        {
+            InitializeComponent();
+            NextPassword.Navigate(new Register());
+        }
+    }
+>>>>>>> 219c4f818d4965a9c71394c39831899f5a13ee63
 }
