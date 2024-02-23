@@ -26,17 +26,16 @@ namespace NextPassword.MVVM.Views
             InitializeComponent();
         }
 
-<<<<<<< HEAD
         public string name;
         public string surname;
         public string email;
         public string password;
         public int countClick = 0;
-        public Button submit;
+        public Button? submit;
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            name = Name.Text;
+            name = Username.Text;
             surname = Surname.Text;
             email = Email.Text;
             password = Password.Text;
@@ -44,7 +43,7 @@ namespace NextPassword.MVVM.Views
 
         private void TextBox_TextChanged_Name(object sender, TextChangedEventArgs e)
         {
-            name = Name.Text;
+            name = Username.Text;
         }
 
         private void TextBox_TextChanged_Surname(object sender, TextChangedEventArgs e)
@@ -64,23 +63,10 @@ namespace NextPassword.MVVM.Views
 
         private void Is_Submit_Enable(object sender, EventArgs e)
         {
-            if ()
-            submit.IsEnabled = true;
-=======
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
-        private void TextBox_TextChanged_1(object sender, TextChangedEventArgs e)
-        {
-
->>>>>>> 219c4f818d4965a9c71394c39831899f5a13ee63
+            if (name.Length <= 16)
+            {
+                submit.IsEnabled = true;
+            }
         }
 
         /*private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)

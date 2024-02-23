@@ -1,37 +1,18 @@
-<<<<<<< HEAD
-﻿<Window x:Class="NextPassword.MainWindow"
+<Window x:Class="NextPassword.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        
-        xmlns:local="clr-namespace:NextPassword"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="1062">
-    <Grid Margin="-270,0,-234,0">
-        <Button x:Name="counterButton" Content="Click Me" Width="100" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center" Click="CounterButton_Click"/>
-
-        <TextBlock x:Name="dbName" Text="Name Null" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,124,0,0" Width="1020"/>
-        <TextBlock x:Name="dbPassword" Text="Password Null" FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="273,87,0,0"/>
-    </Grid>
-</Window>
-=======
-﻿<Window x:Class="NextPassword.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NextPassword"
-        mc:Ignorable="d"
         Title="NextPassword" Height="600" Width="850">
     <Grid>
         <Border
-            Background="#F0F0F0"   
+            Background="#F0F0F0"
             CornerRadius="20"
-         />
+            />
         <Frame
-            x:Name="NextPassword"    
+            x:Name="NextPassword"
         ></Frame>
     </Grid>
 </Window>
->>>>>>> 219c4f818d4965a9c71394c39831899f5a13ee63
