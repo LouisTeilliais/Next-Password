@@ -31,8 +31,6 @@ namespace NextPassword.MVVM.Views
         public string email;
         public string password;
         public int countClick = 0;
-        public Button? submit;
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             name = Username.Text;
@@ -55,18 +53,24 @@ namespace NextPassword.MVVM.Views
         {
             email = Email.Text;
         }
-
+        
         private void TextBox_TextChanged_Password(object sender, TextChangedEventArgs e)
         {
             password = Password.Text;
+            SubmitButton.IsEnabled = password.Length >= 14;
         }
 
-        private void Is_Submit_Enable(object sender, EventArgs e)
+
+        private void Password_MouseEnter(object sender, MouseEventArgs e)
         {
-            if (name.Length <= 16)
-            {
-                submit.IsEnabled = true;
-            }
+            TooltipPassword.Visibility = Visibility.Visible;
+        }
+
+
+
+        private void Password_MouseLeave(object sender, MouseEventArgs e)
+        {
+            TooltipPassword.Visibility = Visibility.Hidden;
         }
 
         /*private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)

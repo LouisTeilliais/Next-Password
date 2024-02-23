@@ -11,16 +11,24 @@ namespace NextPassword.MVVM.Views
             InitializeComponent();
         }
 
+        protected string password;
+        protected string email;
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new Home());
         }
 
-        private void TextBox_TextChanged1(object sender, TextChangedEventArgs e)
+        private void TextBox_TextChanged_Email(object sender, TextChangedEventArgs e)
         {
-
+            email = Email.Text;
         }
 
-       
+        private void TextBox_TextChanged_Password(object sender, TextChangedEventArgs e)
+        {
+            password = Password.Text;
+        }
+
+
     }
 }

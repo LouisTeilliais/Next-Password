@@ -8,13 +8,65 @@
       Title="Register"
       Background="#F0F0F0"
       >
+    <Page.Resources>
+        <Style x:Key="PlaceholderTextBoxStyle" TargetType="TextBox">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Grid>
+                            <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1"/>
+                            <TextBlock x:Name="PlaceholderText" 
+                                       Text="{TemplateBinding Tag}"
+                                       Foreground="Gray"
+                                       Margin="5,0,0,0"
+                                       VerticalAlignment="Center"
+                                       Visibility="Collapsed"/>
+                            <ScrollViewer x:Name="PART_ContentHost" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="Text" Value="">
+                                <Setter TargetName="PlaceholderText" Property="Visibility" Value="Visible"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!--<Style x:Key="CustomToolTipPasswordStyle" TargetType="ToolTip">
+            <Setter Property="Width" Value="350"/>
+            <Setter Property="Height" Value="100"/>
+            <Setter Property="Background" Value="blue" />
+            <Setter Property="ContentTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <Border Background="Red" CornerRadius="5">
+                            <StackPanel>
+                                <TextBlock Text="Votre mot de passe doit contenir minimum 14 caractères"/>
+                                <TextBlock Text="En utilisant des majuscules, minuscules, chiffres et caractères spéciaux"/>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>-->
+    </Page.Resources>
     <Grid>
-        <Image Height="100" Width="100" Margin="350,7,350,343" Source="C:\Users\lteilliais\Documents\Ynov\Next-Password\NextPassword\MVVM\Images\logo.png"/>
-        <TextBox Name="Username" HorizontalAlignment="Center" Margin="0,144,0,0" TextWrapping="Wrap" Text="Prénom" VerticalAlignment="Top" Width="176" Height="38" TextChanged="TextBox_TextChanged_Name"/>
-        <TextBox Name="Surname" HorizontalAlignment="Center" Margin="0,187,0,0" TextWrapping="Wrap" Text="Nom" VerticalAlignment="Top" Width="176" Height="36" TextChanged="TextBox_TextChanged_Surname"/>
-        <TextBox Name="Email" HorizontalAlignment="Center" Margin="0,228,0,0" TextWrapping="Wrap" Text="Email" VerticalAlignment="Top" Width="176" Height="36" TextChanged="TextBox_TextChanged_Email"/>
-        <TextBox Name="Password" HorizontalAlignment="Center" Margin="0,269,0,0" TextWrapping="Wrap" Text="Mot de passe" VerticalAlignment="Top" Width="176" Height="37" TextChanged="TextBox_TextChanged_Password"/>
-        <Button Name="Submit" Foreground="White" Background="#3B97CB" Content="S'inscrire" HorizontalAlignment="Center" Margin="0,311,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.918,0.695" Click="Button_Click" Width="176" Height="31" IsEnabled="False"/>
+        <TextBox x:Name="Username" Tag="Prénom" HorizontalAlignment="Center" VerticalContentAlignment="Center" Margin="0,144,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="176" Height="38" Padding="4,0,0,0" TextChanged="TextBox_TextChanged_Name"  Style="{StaticResource PlaceholderTextBoxStyle}"/>
+        <TextBox x:Name="Surname" Tag="Nom de famille" HorizontalAlignment="Center" VerticalContentAlignment="Center" Margin="0,187,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="176" Height="36" Padding="4,0,0,0" TextChanged="TextBox_TextChanged_Surname" Style="{StaticResource PlaceholderTextBoxStyle}"/>
+        <TextBox x:Name="Email" Tag="Email" HorizontalAlignment="Center" VerticalContentAlignment="Center" Margin="0,228,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="176" Height="36" Padding="4,0,0,0" TextChanged="TextBox_TextChanged_Email" Style="{StaticResource PlaceholderTextBoxStyle}"/>
+        <Grid>
+            <TextBox x:Name="Password" Tag="Mot de passe" HorizontalAlignment="Center" VerticalContentAlignment="Center" Margin="0,269,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="176" Height="37" Padding="4,0,0,0" TextChanged="TextBox_TextChanged_Password" Style="{StaticResource PlaceholderTextBoxStyle}" />
+            <Image x:Name="TooltipImagePassword" Source="..\Images\tooltip2.png"  MouseEnter="Password_MouseEnter" MouseLeave="Password_MouseLeave" Margin="493,270,279,146" />
+            <TextBlock x:Name="TooltipPassword" Text="Your Tooltip Content" Visibility="Hidden" 
+                       HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0"/>
+        </Grid>
+
+        <!--<TextBox.ToolTip>
+                <TextBlock>Useful information goes here.</TextBlock>
+            </TextBox.ToolTip>-->
+        <!--</TextBox>-->
+        <Button x:Name="SubmitButton" Foreground="White" Background="#3B97CB" Content="S'inscrire" HorizontalAlignment="Center" Margin="0,311,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.918,0.695" Click="Button_Click" Width="176" Height="31" IsEnabled="False"/>
+
 
         <TextBlock HorizontalAlignment="Left" Height="18" Margin="334,350,0,0" TextWrapping="Wrap" Text="Déjà inscrit ? " VerticalAlignment="Top" Width="71"/>
         <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Margin="405,350,0,0" Width="101" >
