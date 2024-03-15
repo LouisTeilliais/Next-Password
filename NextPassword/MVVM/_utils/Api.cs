@@ -12,7 +12,7 @@ namespace NextPassword.MVVM._utils
 {
     public class Api
     {
-        static string BaseUrl = "http://localhost:5000";
+        static string BaseUrl = "http://localhost:5017";
 
         static HttpClient client = new HttpClient();
         static async Task<object> GetItemsAsync(string path)
@@ -24,6 +24,17 @@ namespace NextPassword.MVVM._utils
                 result = await response.Content.ReadAsStringAsync();
             }
             return result;
+        }
+
+        static async Task<object> CreateItemsAsync(string path, object items)
+        {
+            HttpResponseMessage response = await client.PostAsJsonAsync(BaseUrl + path, items);
+            response.EnsureSuccessStatusCode();
+
+            items = await response.Content.ReadFromJsonAsync<object>();
+
+            // return URI of the created resource.
+            return items;
         }
 
         static async Task<object> UpdateItemsAsync(string path, Password password)
