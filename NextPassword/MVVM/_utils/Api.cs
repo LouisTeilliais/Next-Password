@@ -15,7 +15,7 @@ namespace NextPassword.MVVM._utils
         static string BaseUrl = "http://localhost:5017";
 
         static HttpClient client = new HttpClient();
-        static async Task<object> GetItemsAsync(string path)
+        protected async Task<object> GetItemsAsync(string path)
         {
             object result = null;
             HttpResponseMessage response = await client.GetAsync(BaseUrl + path);
@@ -26,7 +26,7 @@ namespace NextPassword.MVVM._utils
             return result;
         }
 
-        static async Task<object> CreateItemsAsync(string path, object items)
+        protected async Task<object> CreateItemsAsync(string path, object items)
         {
             HttpResponseMessage response = await client.PostAsJsonAsync(BaseUrl + path, items);
             response.EnsureSuccessStatusCode();
@@ -37,7 +37,7 @@ namespace NextPassword.MVVM._utils
             return items;
         }
 
-        static async Task<object> UpdateItemsAsync(string path, Password password)
+        protected async Task<object> UpdateItemsAsync(string path, Password password)
         {
             HttpResponseMessage response = await client.PutAsJsonAsync($"{path}/{password.Id}", password);
             response.EnsureSuccessStatusCode();

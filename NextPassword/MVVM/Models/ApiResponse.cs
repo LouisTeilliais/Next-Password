@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace NextPassword.MVVM.Models
 {
-    internal class ApiResponse
+    public class ApiResponse<T>
     {
-        public List<Password> Results { get; set; }
+        public int StatusCode { get; set; }
+        public List<T> Results { get; set; }
     }
 }

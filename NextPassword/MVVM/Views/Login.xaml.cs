@@ -29,6 +29,7 @@ namespace NextPassword.MVVM.Views
             password = Password.Text;
         }
 
+        /*private void */
 
     }
 }
