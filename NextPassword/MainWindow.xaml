@@ -13,6 +13,6 @@
             />
         <Frame
             x:Name="NextPassword"
-        ></Frame>
+        />
     </Grid>
 </Window>
