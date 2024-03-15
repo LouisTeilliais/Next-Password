@@ -1,18 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using NextPassword.MVVM._utils;
+using NextPassword.MVVM.Models;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Diagnostics;
 
 namespace NextPassword.MVVM.Views
 {
@@ -31,12 +22,20 @@ namespace NextPassword.MVVM.Views
         public string email;
         public string password;
         public int countClick = 0;
-        private void Button_Click(object sender, RoutedEventArgs e)
+
+        private Api<User> Api = new Api<User>();
+
+        private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            name = Username.Text;
-            surname = Surname.Text;
-            email = Email.Text;
-            password = Password.Text;
+            Trace.WriteLine("Button was click");
+            if (email != null && password != null )
+            {
+                UserBase userBase = new UserBase(email, password);
+                Trace.WriteLine(userBase);
+                ApiResponse<User> ApiResponse = await Api.CreateItemsAsync("/register", userBase);
+                Trace.WriteLine($"{ApiResponse.Results.Password}");
+                Username.Text = ApiResponse.Results.Email;
+            }
         }
 
         private void TextBox_TextChanged_Name(object sender, TextChangedEventArgs e)
@@ -44,10 +43,6 @@ namespace NextPassword.MVVM.Views
             name = Username.Text;
         }
 
-        private void TextBox_TextChanged_Surname(object sender, TextChangedEventArgs e)
-        {
-            surname = Surname.Text;
-        }
 
         private void TextBox_TextChanged_Email(object sender, TextChangedEventArgs e)
         {
@@ -60,14 +55,10 @@ namespace NextPassword.MVVM.Views
             SubmitButton.IsEnabled = password.Length >= 14;
         }
 
-
         private void Password_MouseEnter(object sender, MouseEventArgs e)
         {
             TooltipPassword.Visibility = Visibility.Visible;
         }
-
-
-
         private void Password_MouseLeave(object sender, MouseEventArgs e)
         {
             TooltipPassword.Visibility = Visibility.Hidden;
