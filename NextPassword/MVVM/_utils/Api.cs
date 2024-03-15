@@ -7,24 +7,47 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.Json;
 
 namespace NextPassword.MVVM._utils
 {
-    public class Api
+    public class Api<T>
     {
         static string BaseUrl = "http://localhost:5017";
 
         static HttpClient client = new HttpClient();
-        protected async Task<object> GetItemsAsync(string path)
+        public async Task<ApiResponse<T>> GetPasswordsAsync<T>(string path, string bearerToken)
         {
-            object result = null;
-            HttpResponseMessage response = await client.GetAsync(BaseUrl + path);
-            if (response != null)
+            ApiResponse<T> apiResponse = new ApiResponse<T>();
+
+            try
             {
-                result = await response.Content.ReadAsStringAsync();
+                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, BaseUrl + path);
+                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", bearerToken);
+
+                HttpResponseMessage response = await client.SendAsync(request);
+                apiResponse.StatusCode = (int)response.StatusCode;
+
+                if (response.IsSuccessStatusCode)
+                {
+                    apiResponse.Results = await response.Content.ReadFromJsonAsync<List<T>>();
+                }
+                else
+                {
+                    // Gérer les erreurs de requête ici si nécessaire
+                    apiResponse.Results = new List<T>(); // Ou null si vous préférez
+                }
             }
-            return result;
+            catch (Exception ex)
+            {
+                // Gérer les exceptions ici
+                Console.WriteLine($"Une erreur s'est produite lors de la récupération des données de l'API : {ex.Message}");
+                apiResponse.StatusCode = 500; // Utilisez un code d'erreur approprié
+                apiResponse.Results = new List<T>(); // Ou null si vous préférez
+            }
+            return apiResponse;
         }
+
 
         protected async Task<object> CreateItemsAsync(string path, object items)
         {

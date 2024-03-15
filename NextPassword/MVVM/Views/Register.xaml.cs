@@ -27,14 +27,12 @@ namespace NextPassword.MVVM.Views
         }
 
         public string name;
-        public string surname;
         public string email;
         public string password;
         public int countClick = 0;
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             name = Username.Text;
-            surname = Surname.Text;
             email = Email.Text;
             password = Password.Text;
         }
@@ -42,11 +40,6 @@ namespace NextPassword.MVVM.Views
         private void TextBox_TextChanged_Name(object sender, TextChangedEventArgs e)
         {
             name = Username.Text;
-        }
-
-        private void TextBox_TextChanged_Surname(object sender, TextChangedEventArgs e)
-        {
-            surname = Surname.Text;
         }
 
         private void TextBox_TextChanged_Email(object sender, TextChangedEventArgs e)

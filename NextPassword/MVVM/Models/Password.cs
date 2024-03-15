@@ -8,7 +8,7 @@ namespace NextPassword.MVVM.Models
 {
     public class Password
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public required string Title { get; set;}
         public required string PasswordHash { get; set; }
         public required string Notes { get; set;}

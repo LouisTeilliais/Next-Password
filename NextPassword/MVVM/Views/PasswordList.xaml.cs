@@ -1,27 +1,16 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using NextPassword.MVVM.Models;
+using NextPassword.MVVM._utils;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Newtonsoft.Json;
-using NextPassword.MVVM.Models;
 
 namespace NextPassword.MVVM.Views
 {
-    /// <summary>
-    /// Logique d'interaction pour Page1.xaml
-    /// </summary>
     public partial class Page1 : Page
     {
         public Page1()
@@ -30,52 +19,31 @@ namespace NextPassword.MVVM.Views
             PasswordList = new ObservableCollection<Password>();
         }
 
-        protected string dataAPITest;
-
         public ObservableCollection<Password> PasswordList { get; set; }
 
-        public void Button_Click(object sender, RoutedEventArgs e)
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            dataAPI.Text = FetchDataFromAPI();
+            List<Password> dataArray = await FetchDataFromAPI();
+
+
+            // Afficher les données dans le TextBlock
+            dataGrid.ItemsSource = dataArray;
         }
 
-        private async Task<string> FetchDataFromAPI()
+        private async Task<List<Password>> FetchDataFromAPI()
         {
-            string baseUrl = "http://pokeapi.co/api/v2/pokemon/1";
-            using (HttpClient client = new HttpClient())
+            string path = "/api/password";
+            string bearerToken = "CfDJ8Ji46fvlb2pPnQCQ02Wp-X3uMgwPWnH7_kI_yy270leuStl1MyemaISFGZFXlYH2AsmgzIH9N4Zmoolyv_7U-hzQlMKleCF6C91fsvWjLJzP4QFj7agChMJe282vOTSjN4lo69v3wgXgTl-SwT6b1h2jEdtKFhY2v9U6y93-MG9kdjYy0kodtEgj1e4fBQ-DNAaGgMIPpzYNgI_s5Zqao11ftdcV_Y2nVPm49QqnZaNgZbxnhKaSMc3TxHLeqIDe-cb_xi4XGL4_8kYq_NB2h1UgnpXWFVEcQA10pEGC8Ksquk5PDBp_F3E-tCm2NKbsWPx8ExAJ-soUgF_APYAx2bbqMLe1cvacqx_SmLyoVM-08vUinHKjJ43eaqBF_Mo75c8bKI5fAMcA6NnNVRIVLCOkUNNKYNe3aiFOnB82HmeRQ_I4lh3I-egai59j3yBlNtH3qpbb3rt2JxbuOakzpgfOcRcW4YC87G5orcPsxk5R7n12q9deo20_CY9r3C89DhBs7zpfTuQnwhqc3oc15gP4FZq5J8lwty3rWUV_gVc_rm132F0Brjn2JmLWgQiNAfwMEtY1h_kJI6nGoEdLrcMKoeUCgPgzlDRwlJJ2mLzp3tbGlpjDXIu63rzpEaT5K6lhh6CotcSPHSDQevUQXeUMaMjQJeV_AuV7q5GG2YBqJ1p3XnnpqG7sllozzcTfIA";
+            var api = new Api<Password>();
+            var response = await api.GetPasswordsAsync<Password>(path, bearerToken);
+
+            if (response.StatusCode == 200)
             {
-                using (HttpResponseMessage res = await client.GetAsync(baseUrl))
-                {
-                    using (HttpContent content = res.Content)
-                    {
-                        var data = await content.ReadAsStringAsync();
-                        return data;
-
-
-        /*if (data != null)
-        {
-            // Désérialisez le JSON dans une liste de Pokémon
-            var passwordList = JsonConvert.DeserializeObject<ApiResponse>(data);
-
-            if (passwordList?.Results != null)
-            {
-                PasswordList.Clear();
-
-                foreach (var password in passwordList.Results)
-                {
-                    PasswordList.Add(password);
-                }
+                return response.Results;
             }
-
-            // Retournez le premier élément de la liste
-            //return passwordList?.Results[3];
-        }*/
-        //else
-        //{
-        //  return null;
-        //}
-    }
-                }
+            else
+            {
+                return new List<Password>();
             }
         }
     }
