@@ -51,6 +51,7 @@
         </Style>-->
     </Page.Resources>
     <Grid>
+        <TextBlock Text="{Binding MessageErreur}" VerticalAlignment="Top" HorizontalAlignment="Center" Width="339" Height="38" Margin="0,96,0,0" />
         <TextBox x:Name="Username" Tag="Prénom" HorizontalAlignment="Center" VerticalContentAlignment="Center" Margin="0,169,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="176" Height="38" Padding="4,0,0,0" TextChanged="TextBox_TextChanged_Name"  Style="{StaticResource PlaceholderTextBoxStyle}"/>
         <TextBox x:Name="Email" Tag="Email" HorizontalAlignment="Center" VerticalContentAlignment="Center" Margin="0,228,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="176" Height="36" Padding="4,0,0,0" TextChanged="TextBox_TextChanged_Email" Style="{StaticResource PlaceholderTextBoxStyle}"/>
         <Grid>

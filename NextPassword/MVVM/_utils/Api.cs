@@ -69,18 +69,6 @@ namespace NextPassword.MVVM._utils
 
             // Return URI of the created resource.
             return apiResponse;
-            /*            ApiResponse<T> apiResponse = new ApiResponse<T>();
-                        string jsonItems = JsonConvert.SerializeObject(items);
-                        Trace.WriteLine(jsonItems);
-                        HttpResponseMessage response = await client.PostAsJsonAsync(BaseUrl + path, jsonItems);
-                        response.EnsureSuccessStatusCode();
-
-                        items = await response.Content.ReadFromJsonAsync<T>();
-
-                        apiResponse.SetApiResponse((int)response.StatusCode, (List<T>)items);
-
-                        // return URI of the created resource.
-                        return apiResponse;*/
         }
 
         protected async Task<ApiResponse<T>> UpdateItemsAsync(string path, object items)
@@ -107,11 +95,6 @@ namespace NextPassword.MVVM._utils
                 throw new ArgumentException("The items argument must implement the IHasId interface.", nameof(items));
             }
 
-           /* HttpResponseMessage response = await client.PutAsJsonAsync($"{path}/{items.ID.ToString()}", items);
-            response.EnsureSuccessStatusCode();
-
-            items = await response.Content.ReadFromJsonAsync<T>();
-            apiResponse.SetApiResponse((int)response.StatusCode, items);*/
             return apiResponse;
         }
     }
