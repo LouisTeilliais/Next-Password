@@ -9,57 +9,73 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
 namespace NextPassword.MVVM._utils
 {
     public class Api<T>
     {
-        static string BaseUrl = "http://localhost:5017";
+        static string baseUrl = "http://localhost:5017";
 
         static HttpClient client = new HttpClient();
+
         protected async Task<ApiResponse<T>> GetItemsAsync(string path)
         {
             ApiResponse<T> apiResponse = new ApiResponse<T>();
 
-            
+            HttpResponseMessage response = await client.GetAsync(baseUrl + path);
 
-            HttpResponseMessage response = await client.GetAsync(BaseUrl + path);
-            /*            if (response != null)
-                        {
-                            result = await response.Content.ReadFromJsonAsync<T>();
-                        }*/
+            if (response.IsSuccessStatusCode)
+            {
+                string itemStr = await response.Content.ReadAsStringAsync();
+                T item = default;
 
-            T result = await response.Content.ReadFromJsonAsync<T>();
+                if (!string.IsNullOrEmpty(itemStr))
+                {
+                    item = JsonConvert.DeserializeObject<T>(itemStr);
+                }
 
-            apiResponse.SetApiResponse(((int)response.StatusCode), result);
+                apiResponse.SetApiResponse((int)response.StatusCode, item);
+            }
+            else
+            {
+                // Set API response if not success
+                apiResponse.SetApiResponse((int)response.StatusCode, default);
+            }
+
             return apiResponse;
         }
 
         public async Task<ApiResponse<T>> CreateItemsAsync(string path, object items)
         {
             ApiResponse<T> apiResponse = new ApiResponse<T>();
+            HttpResponseMessage response;
 
             try
             {
-                /* Serialize JSON object, change name to respect camelCase for API */
                 string jsonItems = JsonConvert.SerializeObject(items, Formatting.None, new JsonSerializerSettings
                 {
                     ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver()
                 });
-
                 var data = new StringContent(jsonItems, Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await client.PostAsync(BaseUrl + path, data);
 
-                // Check if the request was successful
-                if (response.IsSuccessStatusCode)
-                {
-                    // Deserialize the response content into an object of type T
-                    T createdItem = await response.Content.ReadFromJsonAsync<T>();
+                response = await client.PostAsync(baseUrl + path, data);
 
-                    // Set the API response with the status code and created item
+                if (response.IsSuccessStatusCode) {
+                    string createdItemStr = await response.Content.ReadAsStringAsync();
+                    T createdItem = default;
+
+                    if (!string.IsNullOrEmpty(createdItemStr)) {
+                        createdItem = JsonConvert.DeserializeObject<T>(createdItemStr);
+                    }
+
                     apiResponse.SetApiResponse((int)response.StatusCode, createdItem);
+                } else {
+                    // Si la réponse n'est pas un succès, définissez la réponse API avec le code d'état de la réponse et la valeur par défaut
+                    apiResponse.SetApiResponse((int)response.StatusCode, default);
                 }
+                
             } 
             catch (Exception ex)
             {
@@ -71,11 +87,9 @@ namespace NextPassword.MVVM._utils
             return apiResponse;
         }
 
-        protected async Task<ApiResponse<T>> UpdateItemsAsync(string path, object items)
-        {
+        protected async Task<ApiResponse<T>> UpdateItemsAsync(string path, object items) {
             ApiResponse<T> apiResponse = new ApiResponse<T>();
-            if (items == null)
-            {
+            if (items == null) {
                 // Lève une exception appropriée ici
                 throw new ArgumentNullException(nameof(items), "L'argument items ne peut pas être null.");
             }
@@ -84,10 +98,24 @@ namespace NextPassword.MVVM._utils
             if (items is IHasId hasIdItem)
             {
                 HttpResponseMessage response = await client.PutAsJsonAsync($"{path}/{hasIdItem.ID}", items);
-                response.EnsureSuccessStatusCode();
 
-                T result = await response.Content.ReadFromJsonAsync<T>();
-                apiResponse.SetApiResponse((int)response.StatusCode, result);
+                if (response.IsSuccessStatusCode)
+                {
+                    string updatedItemStr = await response.Content.ReadAsStringAsync();
+                    T updatedItem = default;
+
+                    if (!string.IsNullOrEmpty(updatedItemStr))
+                    {
+                        updatedItem = JsonConvert.DeserializeObject<T>(updatedItemStr);
+                    }
+
+                    apiResponse.SetApiResponse((int)response.StatusCode, updatedItem);
+                }
+                else
+                {
+                    // Si la réponse n'est pas un succès, définissez la réponse API avec le code d'état de la réponse et la valeur par défaut
+                    apiResponse.SetApiResponse((int)response.StatusCode, default);
+                }
             }
             else
             {
