@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using NextPassword.MVVM._utils;
+using NextPassword.MVVM.Models;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Diagnostics;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace NextPassword.MVVM.Views
 {
@@ -29,18 +22,57 @@ namespace NextPassword.MVVM.Views
         public string name;
         public string email;
         public string password;
-        public int countClick = 0;
-        private void Button_Click(object sender, RoutedEventArgs e)
+/*        private string _messageErreur;
+
+        public string MessageErreur
         {
-            name = Username.Text;
-            email = Email.Text;
-            password = Password.Text;
+            get { return _messageErreur; }
+            set
+            {
+                if (_messageErreur != value)
+                {
+                    _messageErreur = value;
+                    OnPropertyChanged();
+                }
+            }
+        }*/
+
+        private Api<User> Api = new Api<User>();
+
+/*        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        // Méthode pour générer un message d'erreur
+        public void GenererErreur(string message)
+        {
+            MessageErreur = message;
+        }*/
+
+        private async void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Trace.WriteLine("Button was click");
+            if (email != null && password != null )
+            {
+                UserBase userBase = new UserBase(email, password);
+                ApiResponse<User> ApiResponse = await Api.CreateItemsAsync("/register", userBase);
+
+                if (ApiResponse.StatusCode.Equals(200) ) { 
+                    NavigationService.Navigate(new Home());
+                }
+            }
+
+            return;
         }
 
         private void TextBox_TextChanged_Name(object sender, TextChangedEventArgs e)
         {
             name = Username.Text;
         }
+
 
         private void TextBox_TextChanged_Email(object sender, TextChangedEventArgs e)
         {
@@ -53,14 +85,10 @@ namespace NextPassword.MVVM.Views
             SubmitButton.IsEnabled = password.Length >= 14;
         }
 
-
         private void Password_MouseEnter(object sender, MouseEventArgs e)
         {
             TooltipPassword.Visibility = Visibility.Visible;
         }
-
-
-
         private void Password_MouseLeave(object sender, MouseEventArgs e)
         {
             TooltipPassword.Visibility = Visibility.Hidden;
