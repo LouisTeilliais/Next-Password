@@ -11,6 +11,7 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.Json;
+using System.Windows;
 
 namespace NextPassword.MVVM._utils
 {
@@ -19,7 +20,7 @@ namespace NextPassword.MVVM._utils
         static string BaseUrl = "http://localhost:5017";
 
         static HttpClient client = new HttpClient();
-        protected async Task<ApiResponse<T>> GetItemsAsync(string path)
+        public async Task<ApiResponse<T>> GetItemsAsync(string path)
         {
             ApiResponse<T> apiResponse = new ApiResponse<T>();
 
@@ -40,33 +41,42 @@ namespace NextPassword.MVVM._utils
         public async Task<ApiResponse<T>> CreateItemsAsync(string path, object items)
         {
             ApiResponse<T> apiResponse = new ApiResponse<T>();
+            HttpResponseMessage response;
 
             try
             {
-                /* Serialize JSON object, change name to respect camelCase for API */
                 string jsonItems = JsonConvert.SerializeObject(items, Formatting.None, new JsonSerializerSettings
                 {
                     ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver()
                 });
-
                 var data = new StringContent(jsonItems, Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await client.PostAsync(BaseUrl + path, data);
 
-                // Check if the request was successful
+                response = await client.PostAsync(BaseUrl + path, data);
+
                 if (response.IsSuccessStatusCode)
                 {
-                    // Deserialize the response content into an object of type T
-                    T createdItem = await response.Content.ReadFromJsonAsync<T>();
+                    string createdItemStr = await response.Content.ReadAsStringAsync();
+                    T createdItem = default;
 
-                    // Set the API response with the status code and created item
+                    if (!string.IsNullOrEmpty(createdItemStr))
+                    {
+                        createdItem = JsonConvert.DeserializeObject<T>(createdItemStr);
+                    }
+
                     apiResponse.SetApiResponse((int)response.StatusCode, createdItem);
                 }
-            } 
+                else
+                {
+                    // Si la réponse n'est pas un succès, définissez la réponse API avec le code d'état de la réponse et la valeur par défaut
+                    apiResponse.SetApiResponse((int)response.StatusCode, default);
+                }
+
+            }
             catch (Exception ex)
             {
                 throw new Exception($"Post request internal server error : {ex.Message}");
             }
-            
+
 
             // Return URI of the created resource.
             return apiResponse;

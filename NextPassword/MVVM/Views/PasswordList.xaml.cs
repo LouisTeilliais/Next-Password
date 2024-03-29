@@ -34,8 +34,8 @@ namespace NextPassword.MVVM.Views
         private async Task<List<Password>> FetchDataFromAPI()
         {
             string path = "/api/password";
-            var api = new Api<Password>();
-            var response = await api.GetPasswordsAsync<Password>(path);
+            var api = new Api<List<Password>>();
+            var response = await api.GetItemsAsync(path);
 
             if (response.StatusCode == 200)
             {
