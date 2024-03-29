@@ -54,14 +54,21 @@ namespace NextPassword.MVVM.Views
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            Trace.WriteLine("Button was click");
-            if (email != null && password != null )
+            /*Trace.WriteLine("Button was click");*/
+            if (email != null && password != null)
             {
                 UserBase userBase = new UserBase(email, password);
+                /*Trace.WriteLine(userBase.Password, userBase.Email);*/
                 ApiResponse<User> ApiResponse = await Api.CreateItemsAsync("/register", userBase);
 
-                if (ApiResponse.StatusCode.Equals(200) ) { 
+                /*Trace.WriteLine(ApiResponse.StatusCode);*/
+                if (ApiResponse.StatusCode.Equals(200))
+                {
                     NavigationService.Navigate(new Home());
+                } else
+                {
+                    /*Trace.WriteLine(ApiResponse.StatusCode);*/
+                    NavigationService.Navigate(new Login());
                 }
             }
 
