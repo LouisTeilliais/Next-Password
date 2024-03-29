@@ -16,14 +16,13 @@ namespace NextPassword.MVVM._utils
         static string BaseUrl = "http://localhost:5017";
 
         static HttpClient client = new HttpClient();
-        public async Task<ApiResponse<T>> GetPasswordsAsync<T>(string path, string bearerToken)
+        public async Task<ApiResponse<T>> GetPasswordsAsync<T>(string path)
         {
             ApiResponse<T> apiResponse = new ApiResponse<T>();
 
             try
             {
                 HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, BaseUrl + path);
-                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", bearerToken);
 
                 HttpResponseMessage response = await client.SendAsync(request);
                 apiResponse.StatusCode = (int)response.StatusCode;
