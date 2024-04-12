@@ -31,6 +31,7 @@ namespace NextPassword.MVVM.Views
 
         public void Button_Click(object sender, RoutedEventArgs e)
         {
+
             NavigationService.Navigate(new AddPassword());
         }
 

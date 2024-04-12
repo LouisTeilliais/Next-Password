@@ -10,6 +10,7 @@ namespace NextPassword.MVVM.Models
     {
         public int StatusCode { get; set; }
         public T Results { get; set; }
+        public string Headers { get; set; }
 
         public void SetApiResponse(int NewStatusCode, T NewResults)
         {

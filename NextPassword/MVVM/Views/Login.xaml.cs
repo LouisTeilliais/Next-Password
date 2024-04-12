@@ -29,6 +29,7 @@ namespace NextPassword.MVVM.Views
 
                     if (ApiResponse.StatusCode.Equals(200))
                     {
+                        Console.WriteLine("zebi il se passe quoi");
                         NavigationService.Navigate(new Home());
                     }
                 }
