@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using NextPassword.MVVM._utils.Interface;
 using NextPassword.MVVM.Models;
 using System;
@@ -11,6 +11,8 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
+using System.Text.Json;
+using System.Windows;
 
 namespace NextPassword.MVVM._utils
 {
@@ -20,9 +22,15 @@ namespace NextPassword.MVVM._utils
 
         static HttpClient client = new HttpClient();
 
-        protected async Task<ApiResponse<T>> GetItemsAsync(string path)
+        public async Task<ApiResponse<T>> GetItemsAsync(string path)
         {
             ApiResponse<T> apiResponse = new ApiResponse<T>();
+            var cookies = CookieManager.GetCookies();
+
+            foreach (var cookie in cookies)
+            {
+                client.DefaultRequestHeaders.Add("Cookie", cookie);
+            }
 
             HttpResponseMessage response = await client.GetAsync(baseUrl + path);
 
@@ -64,6 +72,7 @@ namespace NextPassword.MVVM._utils
 
                 if (response.IsSuccessStatusCode) {
                     string createdItemStr = await response.Content.ReadAsStringAsync();
+                    var cookies = response.Headers.GetValues("Set-Cookie");
                     T createdItem = default;
 
                     if (!string.IsNullOrEmpty(createdItemStr)) {
@@ -71,6 +80,7 @@ namespace NextPassword.MVVM._utils
                     }
 
                     apiResponse.SetApiResponse((int)response.StatusCode, createdItem);
+                    CookieManager.SetCookies(cookies);
                 } else {
                     // Si la réponse n'est pas un succès, définissez la réponse API avec le code d'état de la réponse et la valeur par défaut
                     apiResponse.SetApiResponse((int)response.StatusCode, default);
@@ -81,7 +91,7 @@ namespace NextPassword.MVVM._utils
             {
                 throw new Exception($"Post request internal server error : {ex.Message}");
             }
-            
+
 
             // Return URI of the created resource.
             return apiResponse;

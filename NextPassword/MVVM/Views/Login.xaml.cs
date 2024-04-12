@@ -20,24 +20,31 @@ namespace NextPassword.MVVM.Views
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (email != null && password != null)
+            try
             {
-                UserBase userBase = new UserBase(email, password);
-                ApiResponse<User> ApiResponse = await Api.CreateItemsAsync("/login", userBase);
-
-                if (ApiResponse.StatusCode.Equals(200))
+                if (email != null && password != null)
                 {
-                    NavigationService.Navigate(new Home());
+                    UserBase userBase = new UserBase(email, password);
+                    ApiResponse<User> ApiResponse = await Api.CreateItemsAsync("/login", userBase);
+
+                    if (ApiResponse.StatusCode.Equals(200))
+                    {
+                        Console.WriteLine("zebi il se passe quoi");
+                        NavigationService.Navigate(new Home());
+                    }
                 }
             }
-
-            return;
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Une erreur s'est produite : {ex.Message}");
+            }
         }
-/*
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            NavigationService.Navigate(new Home());
-        }*/
+
+        /*
+                private void Button_Click(object sender, RoutedEventArgs e)
+                {
+                    NavigationService.Navigate(new Home());
+                }*/
 
         private void TextBox_TextChanged_Email(object sender, TextChangedEventArgs e)
         {

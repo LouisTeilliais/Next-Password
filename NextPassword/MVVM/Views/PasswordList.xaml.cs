@@ -1,39 +1,25 @@
-﻿using NextPassword.MVVM._utils;
+﻿using Newtonsoft.Json;
 using NextPassword.MVVM.Models;
+using NextPassword.MVVM._utils;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace NextPassword.MVVM.Views
 {
-    /// <summary>
-    /// Logique d'interaction pour Home.xaml
-    /// </summary>
-    public partial class Home : Page
+    public partial class Page1 : Page
     {
-        public Home()
+        public Page1()
         {
             InitializeComponent();
+            PasswordList = new ObservableCollection<Password>();
         }
 
-
-        public void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-            NavigationService.Navigate(new AddPassword());
-        }
+        public ObservableCollection<Password> PasswordList { get; set; }
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
