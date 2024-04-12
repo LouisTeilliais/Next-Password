@@ -20,7 +20,7 @@ namespace NextPassword
         public MainWindow()
         {
             InitializeComponent();
-            NextPassword.Navigate(new AddPassword());
+            NextPassword.Navigate(new Login());
         }
     }
 }

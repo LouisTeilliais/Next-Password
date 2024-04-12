@@ -34,11 +34,8 @@ namespace NextPassword.MVVM.Views
 
                 if (ApiResponse.StatusCode.Equals(200))
                 {
-                    NavigationService.Navigate(new Home());
-                } else
-                {
                     NavigationService.Navigate(new Login());
-                }
+                } 
             }
 
             return;

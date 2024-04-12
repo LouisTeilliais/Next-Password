@@ -25,7 +25,7 @@ namespace NextPassword.MVVM.Views
                 if (email != null && password != null)
                 {
                     UserBase userBase = new UserBase(email, password);
-                    ApiResponse<User> ApiResponse = await Api.CreateItemsAsync("/login", userBase);
+                    ApiResponse<User> ApiResponse = await Api.CreateItemsAsync("/login", userBase, true);
 
                     if (ApiResponse.StatusCode.Equals(200))
                     {

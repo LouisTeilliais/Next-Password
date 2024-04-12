@@ -22,14 +22,18 @@ namespace NextPassword.MVVM._utils
 
         static HttpClient client = new HttpClient();
 
-        public async Task<ApiResponse<T>> GetItemsAsync(string path)
+        public async Task<ApiResponse<T>> GetItemsAsync(string path, bool? isCookieNecessary = false)
         {
             ApiResponse<T> apiResponse = new ApiResponse<T>();
-            var cookies = CookieManager.GetCookies();
 
-            foreach (var cookie in cookies)
+            if (isCookieNecessary == true)
             {
-                client.DefaultRequestHeaders.Add("Cookie", cookie);
+                var cookies = CookieManager.GetCookies();
+
+                foreach (var cookie in cookies)
+                {
+                    client.DefaultRequestHeaders.Add("Cookie", cookie);
+                }
             }
 
             HttpResponseMessage response = await client.GetAsync(baseUrl + path);
@@ -55,7 +59,7 @@ namespace NextPassword.MVVM._utils
             return apiResponse;
         }
 
-        public async Task<ApiResponse<T>> CreateItemsAsync(string path, object items)
+        public async Task<ApiResponse<T>> CreateItemsAsync(string path, object items, bool? isCookieNecessary = false)
         {
             ApiResponse<T> apiResponse = new ApiResponse<T>();
             HttpResponseMessage response;
@@ -72,7 +76,7 @@ namespace NextPassword.MVVM._utils
 
                 if (response.IsSuccessStatusCode) {
                     string createdItemStr = await response.Content.ReadAsStringAsync();
-                    var cookies = response.Headers.GetValues("Set-Cookie");
+                    
                     T createdItem = default;
 
                     if (!string.IsNullOrEmpty(createdItemStr)) {
@@ -80,9 +84,15 @@ namespace NextPassword.MVVM._utils
                     }
 
                     apiResponse.SetApiResponse((int)response.StatusCode, createdItem);
-                    CookieManager.SetCookies(cookies);
+
+                    // Manage cookie for authentication
+                    if (isCookieNecessary == true)
+                    {
+                        var cookies = response.Headers.GetValues("Set-Cookie");
+                        CookieManager.SetCookies(cookies);
+                    }
+                    
                 } else {
-                    // Si la réponse n'est pas un succès, définissez la réponse API avec le code d'état de la réponse et la valeur par défaut
                     apiResponse.SetApiResponse((int)response.StatusCode, default);
                 }
                 
