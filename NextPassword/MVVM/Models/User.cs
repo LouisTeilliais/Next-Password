@@ -14,8 +14,18 @@ namespace NextPassword.MVVM.Models
         public string? PhoneNumber { get; set; }
         public bool? PhoneNumberConfirmed { get; set; }
 
-        public User(string email, string password) : base(email, password)
+        public User(string email, string password, string? userName, string? normalizedUserName, string? normalizedEmail, bool? emailConfirmed, string? securityStamp, string? concurrencyStamp, string? phoneNumber, bool? phoneNumberConfirmed) : base(email, password)
         {
+            Username = userName;
+            NormalizedUserName = normalizedUserName;
+            NormalizedEmail = normalizedEmail;
+            EmailConfirmed = emailConfirmed;
+            SecurityStamp = securityStamp;
+            PhoneNumber = phoneNumber;
+            PhoneNumberConfirmed = phoneNumberConfirmed;
+            EmailConfirmed = emailConfirmed;
+            ConcurrencyStamp = concurrencyStamp;
+
         }
 
     }

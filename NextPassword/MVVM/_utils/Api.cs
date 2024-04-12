@@ -90,7 +90,6 @@ namespace NextPassword.MVVM._utils
         protected async Task<ApiResponse<T>> UpdateItemsAsync(string path, object items) {
             ApiResponse<T> apiResponse = new ApiResponse<T>();
             if (items == null) {
-                // Lève une exception appropriée ici
                 throw new ArgumentNullException(nameof(items), "L'argument items ne peut pas être null.");
             }
 

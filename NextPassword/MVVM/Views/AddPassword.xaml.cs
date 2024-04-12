@@ -1,4 +1,6 @@
-﻿using System;
+﻿using NextPassword.MVVM._utils;
+using NextPassword.MVVM.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,26 +22,43 @@ namespace NextPassword.MVVM.Views
     /// </summary>
     public partial class AddPassword : Page
     {
-#pragma warning disable CS8618 // Un champ non-nullable doit contenir une valeur non-null lors de la fermeture du constructeur. Envisagez de déclarer le champ comme nullable.
-#pragma warning disable CS8618 // Un champ non-nullable doit contenir une valeur non-null lors de la fermeture du constructeur. Envisagez de déclarer le champ comme nullable.
-#pragma warning disable CS8618 // Un champ non-nullable doit contenir une valeur non-null lors de la fermeture du constructeur. Envisagez de déclarer le champ comme nullable.
-#pragma warning disable CS8618 // Un champ non-nullable doit contenir une valeur non-null lors de la fermeture du constructeur. Envisagez de déclarer le champ comme nullable.
-#pragma warning disable CS8618 // Un champ non-nullable doit contenir une valeur non-null lors de la fermeture du constructeur. Envisagez de déclarer le champ comme nullable.
         public AddPassword()
-#pragma warning restore CS8618 // Un champ non-nullable doit contenir une valeur non-null lors de la fermeture du constructeur. Envisagez de déclarer le champ comme nullable.
-#pragma warning restore CS8618 // Un champ non-nullable doit contenir une valeur non-null lors de la fermeture du constructeur. Envisagez de déclarer le champ comme nullable.
-#pragma warning restore CS8618 // Un champ non-nullable doit contenir une valeur non-null lors de la fermeture du constructeur. Envisagez de déclarer le champ comme nullable.
-#pragma warning restore CS8618 // Un champ non-nullable doit contenir une valeur non-null lors de la fermeture du constructeur. Envisagez de déclarer le champ comme nullable.
-#pragma warning restore CS8618 // Un champ non-nullable doit contenir une valeur non-null lors de la fermeture du constructeur. Envisagez de déclarer le champ comme nullable.
         {
             InitializeComponent();
         }
 
-        protected new string Title;
-        protected string Link;
-        protected string Password;
-        protected string ConfirmationPassword;
-        protected string Email;
+        protected string title;
+        protected string? link;
+        protected string password;
+        protected string confirmationPassword;
+        protected string email;
+        protected string? notes;
+        protected string? username;
+
+        private Api<Password> Api = new Api<Password>();
+
+        private async void Button_Click(object sender, RoutedEventArgs e)
+        {
+            /* TODO */
+            if (title != null && password != null)
+            {
+                Password passwordBody = new Password(null, title, password, notes, username, link);
+                /*Trace.WriteLine(userBase.Password, userBase.Email);*/
+                ApiResponse<Password> ApiResponse = await Api.CreateItemsAsync("/api/password", passwordBody);
+
+                /*Trace.WriteLine(ApiResponse.StatusCode);*/
+                if (ApiResponse.StatusCode.Equals(200))
+                {
+                    NavigationService.Navigate(new Home());
+                }
+            } else
+            { 
+                // TODO Create modal to warn user if require field is empty
+                Console.WriteLine("Password or title field empty");
+            }
+
+            return;
+        }
 
         private void TextBox_TextChanged_Title(object sender, TextChangedEventArgs e)
         {
@@ -48,18 +67,41 @@ namespace NextPassword.MVVM.Views
 
         private void TextBox_TextChanged_Link(object sender, TextChangedEventArgs e)
         {
-            Link = LinkPassword.Text;
+            link = LinkPassword.Text;
         }
 
         private void TextBox_TextChanged_Password(object sender, TextChangedEventArgs e)
         {
-            Password = NewPassword.Text;
+            password = NewPassword.Text;
         }
 
         private void TextBox_TextChanged_PasswordConfirmation(object sender, TextChangedEventArgs e)
         {
-            ConfirmationPassword = NewPasswordConfirmation.Text;
+            confirmationPassword = NewPasswordConfirmation.Text;
+            /*SubmitButton.IsEnabled = password.Length >= 14;*/
         }
+
+        private void TextBox_TextChanged_Username(object sender, TextChangedEventArgs e)
+        {
+            username = UsernamePassord.Text;
+        }
+
+        private void Button_Back_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Home());
+        }
+        private void Button_MouseEnter_ToolTip(object sender, MouseEventArgs e)
+        {
+            Button button = (Button)sender;
+            button.ToolTip = "Mot de passe de 12 caractères minimum, contenant des chiffres, majuscules, minimum et caractères spéciaux";
+        }
+
+        private void Button_MouseLeave_ToolTip(object sender, MouseEventArgs e)
+        {
+            Button button = (Button)sender;
+            button.ToolTip = null;
+        }
+
 
     }
 }
