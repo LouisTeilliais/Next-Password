@@ -22,54 +22,20 @@ namespace NextPassword.MVVM.Views
         public string name;
         public string email;
         public string password;
-/*        private string _messageErreur;
-
-        public string MessageErreur
-        {
-            get { return _messageErreur; }
-            set
-            {
-                if (_messageErreur != value)
-                {
-                    _messageErreur = value;
-                    OnPropertyChanged();
-                }
-            }
-        }*/
 
         private Api<User> Api = new Api<User>();
 
-/*        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        // Méthode pour générer un message d'erreur
-        public void GenererErreur(string message)
-        {
-            MessageErreur = message;
-        }*/
-
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            /*Trace.WriteLine("Button was click");*/
             if (email != null && password != null)
             {
                 UserBase userBase = new UserBase(email, password);
-                /*Trace.WriteLine(userBase.Password, userBase.Email);*/
                 ApiResponse<User> ApiResponse = await Api.CreateItemsAsync("/register", userBase);
 
-                /*Trace.WriteLine(ApiResponse.StatusCode);*/
                 if (ApiResponse.StatusCode.Equals(200))
                 {
-                    NavigationService.Navigate(new Home());
-                } else
-                {
-                    /*Trace.WriteLine(ApiResponse.StatusCode);*/
                     NavigationService.Navigate(new Login());
-                }
+                } 
             }
 
             return;
@@ -100,12 +66,5 @@ namespace NextPassword.MVVM.Views
         {
             TooltipPassword.Visibility = Visibility.Hidden;
         }
-
-        /*private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
-        {
-            // Open the URL in the default web browser
-            NavigationService.Navigate(new Uri("Login.xaml"));
-            
-        }*/
     }
 }

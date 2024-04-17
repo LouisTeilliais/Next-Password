@@ -56,8 +56,8 @@
         <TextBox x:Name="Email" Tag="Email" HorizontalAlignment="Center" VerticalContentAlignment="Center" Margin="0,228,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="176" Height="36" Padding="4,0,0,0" TextChanged="TextBox_TextChanged_Email" Style="{StaticResource PlaceholderTextBoxStyle}"/>
         <Grid>
             <TextBox x:Name="Password" Tag="Mot de passe" HorizontalAlignment="Center" VerticalContentAlignment="Center" Margin="0,269,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="176" Height="37" Padding="4,0,0,0" TextChanged="TextBox_TextChanged_Password" Style="{StaticResource PlaceholderTextBoxStyle}" />
-            <Image x:Name="TooltipImagePassword" Source="..\Images\tooltip2.png"  MouseEnter="Password_MouseEnter" MouseLeave="Password_MouseLeave" Margin="493,270,279,146" />
-            <TextBlock x:Name="TooltipPassword" Text="Your Tooltip Content" Visibility="Hidden" 
+            <Image x:Name="TooltipImagePassword" Source="..\Images\tooltip2.png" MouseEnter="Password_MouseEnter" MouseLeave="Password_MouseLeave" Margin="493,270,279,146" />
+            <TextBlock x:Name="TooltipPassword" Text="Mot de passe de plus de 13 caractères obligatoire" Visibility="Hidden" 
                        HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0"/>
         </Grid>
 

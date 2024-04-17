@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using NextPassword.MVVM.Models;
 using NextPassword.MVVM._utils;
 using System;
@@ -31,11 +31,16 @@ namespace NextPassword.MVVM.Views
 
         }
 
+        public void Add_password(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new AddPassword());
+        }
+
         private async Task<List<Password>> FetchDataFromAPI()
         {
             string path = "/api/password";
             var api = new Api<List<Password>>();
-            var response = await api.GetItemsAsync(path);
+            var response = await api.GetItemsAsync(path, true);
 
             if (response.StatusCode == 200)
             {

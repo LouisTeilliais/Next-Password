@@ -22,14 +22,19 @@ namespace NextPassword.MVVM._utils
 
         static HttpClient client = new HttpClient();
 
-        public async Task<ApiResponse<T>> GetItemsAsync(string path)
+        public async Task<ApiResponse<T>> GetItemsAsync(string path, bool? isCookieNecessary = false)
         {
             ApiResponse<T> apiResponse = new ApiResponse<T>();
-            var cookies = CookieManager.GetCookies();
 
-            foreach (var cookie in cookies)
+            // Ajout du token dans la requête si c'est nécessaire
+            if (isCookieNecessary == true)
             {
-                client.DefaultRequestHeaders.Add("Cookie", cookie);
+                var cookies = CookieManager.GetCookies();
+
+                foreach (var cookie in cookies)
+                {
+                    client.DefaultRequestHeaders.Add("Cookie", cookie);
+                }
             }
 
             HttpResponseMessage response = await client.GetAsync(baseUrl + path);
@@ -55,7 +60,7 @@ namespace NextPassword.MVVM._utils
             return apiResponse;
         }
 
-        public async Task<ApiResponse<T>> CreateItemsAsync(string path, object items)
+        public async Task<ApiResponse<T>> CreateItemsAsync(string path, object items, bool? isCookieNecessary = false)
         {
             ApiResponse<T> apiResponse = new ApiResponse<T>();
             HttpResponseMessage response;
@@ -68,11 +73,22 @@ namespace NextPassword.MVVM._utils
                 });
                 var data = new StringContent(jsonItems, Encoding.UTF8, "application/json");
 
+                // Ajout du token dans la requête si c'est nécessaire
+                if (isCookieNecessary == true)
+                {
+                    var cookies = CookieManager.GetCookies();
+
+                    foreach (var cookie in cookies)
+                    {
+                        client.DefaultRequestHeaders.Add("Cookie", cookie);
+                    }
+                }
+
                 response = await client.PostAsync(baseUrl + path, data);
 
                 if (response.IsSuccessStatusCode) {
                     string createdItemStr = await response.Content.ReadAsStringAsync();
-                    var cookies = response.Headers.GetValues("Set-Cookie");
+                    
                     T createdItem = default;
 
                     if (!string.IsNullOrEmpty(createdItemStr)) {
@@ -80,9 +96,15 @@ namespace NextPassword.MVVM._utils
                     }
 
                     apiResponse.SetApiResponse((int)response.StatusCode, createdItem);
-                    CookieManager.SetCookies(cookies);
+
+                    // Ajoute le token de connexion dans les cookies (tableau de Cookies) lors de la connexion
+                    if (isCookieNecessary == false)
+                    {
+                        var cookies = response.Headers.GetValues("Set-Cookie");
+                        CookieManager.SetCookies(cookies);
+                    }
+                    
                 } else {
-                    // Si la réponse n'est pas un succès, définissez la réponse API avec le code d'état de la réponse et la valeur par défaut
                     apiResponse.SetApiResponse((int)response.StatusCode, default);
                 }
                 
@@ -100,7 +122,6 @@ namespace NextPassword.MVVM._utils
         protected async Task<ApiResponse<T>> UpdateItemsAsync(string path, object items) {
             ApiResponse<T> apiResponse = new ApiResponse<T>();
             if (items == null) {
-                // Lève une exception appropriée ici
                 throw new ArgumentNullException(nameof(items), "L'argument items ne peut pas être null.");
             }
 
