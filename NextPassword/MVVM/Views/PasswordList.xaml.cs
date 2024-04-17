@@ -27,7 +27,7 @@ namespace NextPassword.MVVM.Views
 
 
             // Afficher les données dans le TextBlock
-            dataGrid.ItemsSource = dataArray;
+            passwordList.ItemsSource = dataArray;
 
         }
 
