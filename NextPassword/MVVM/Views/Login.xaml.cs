@@ -1,4 +1,5 @@
 ﻿using NextPassword.MVVM._utils;
+using NextPassword.MVVM._utils.Interface;
 using NextPassword.MVVM.Models;
 using System.Diagnostics;
 using System.Windows;
@@ -9,14 +10,17 @@ namespace NextPassword.MVVM.Views
 {
     public partial class Login : Page
     {
-        public Login()
-        {
-            InitializeComponent();
-        }
-
         protected string password;
         protected string email;
         private Api<User> Api = new Api<User>();
+
+        private readonly IDialogService _dialogService;
+        public Login()
+        {
+            InitializeComponent();
+            _dialogService = new DialogService();
+        }
+
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -30,20 +34,17 @@ namespace NextPassword.MVVM.Views
                     if (ApiResponse.StatusCode.Equals(200))
                     {
                         NavigationService.Navigate(new Page1());
+                    } else
+                    {
+                        _dialogService.ShowMessage($"Connexion impossible avec l'utilisateur possédant l'email suivant : {email}");
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Une erreur s'est produite : {ex.Message}");
+                _dialogService.ShowMessage($"Une erreur s'est produite : {ex.Message}");
             }
         }
-
-        /*
-                private void Button_Click(object sender, RoutedEventArgs e)
-                {
-                    NavigationService.Navigate(new Home());
-                }*/
 
         private void TextBox_TextChanged_Email(object sender, TextChangedEventArgs e)
         {
@@ -54,8 +55,6 @@ namespace NextPassword.MVVM.Views
         {
             password = Password.Text;
         }
-
-        /*private void */
 
     }
 }

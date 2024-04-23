@@ -13,6 +13,7 @@ using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Text.Json;
 using System.Windows;
+using NextPassword.MVVM._utils.Validator;
 
 namespace NextPassword.MVVM._utils
 {
@@ -87,11 +88,13 @@ namespace NextPassword.MVVM._utils
                 response = await client.PostAsync(baseUrl + path, data);
 
                 if (response.IsSuccessStatusCode) {
-                    string createdItemStr = await response.Content.ReadAsStringAsync();
+                    string? createdItemStr = await response.Content.ReadAsStringAsync();
+
+                    bool isResponseExisting = TypeValidator.TryParseJSON(createdItemStr);
                     
                     T createdItem = default;
 
-                    if (!string.IsNullOrEmpty(createdItemStr)) {
+                    if (isResponseExisting) {
                         createdItem = JsonConvert.DeserializeObject<T>(createdItemStr);
                     }
 

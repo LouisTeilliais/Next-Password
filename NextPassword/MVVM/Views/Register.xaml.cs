@@ -6,6 +6,7 @@ using System.Windows.Input;
 using System.Diagnostics;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using NextPassword.MVVM._utils.Interface;
 
 namespace NextPassword.MVVM.Views
 {
@@ -14,16 +15,19 @@ namespace NextPassword.MVVM.Views
     /// </summary>
     public partial class Register : Page
     {
-        public Register()
-        {
-            InitializeComponent();
-        }
-
         public string name;
         public string email;
         public string password;
 
         private Api<User> Api = new Api<User>();
+
+        private readonly IDialogService _dialogService;
+        public Register()
+        {
+            InitializeComponent();
+            _dialogService = new DialogService();
+        }
+
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -35,7 +39,13 @@ namespace NextPassword.MVVM.Views
                 if (ApiResponse.StatusCode.Equals(200))
                 {
                     NavigationService.Navigate(new Login());
-                } 
+                } else
+                {
+                    _dialogService.ShowMessage($"Impossible de créer l'utilisateur : {email}");
+                }
+            } else
+            {
+                _dialogService.ShowMessage($"Le champ email et/ou password est vide, veuillez remplir ses deux champs obligatoires");
             }
 
             return;

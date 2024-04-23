@@ -1,4 +1,5 @@
 ﻿using NextPassword.MVVM._utils;
+using NextPassword.MVVM._utils.Interface;
 using NextPassword.MVVM.Models;
 using System;
 using System.Collections.Generic;
@@ -20,11 +21,6 @@ namespace NextPassword.MVVM.Views
     /// </summary>
     public partial class AddPassword : Page
     {
-        public AddPassword()
-        {
-            InitializeComponent();
-        }
-
         protected string title;
         protected string? link;
         protected string password;
@@ -35,24 +31,41 @@ namespace NextPassword.MVVM.Views
 
         private Api<Password> Api = new Api<Password>();
 
-        public async void Button_Click_Add(object sender, RoutedEventArgs e)
+        private readonly IDialogService _dialogService;
+
+        public AddPassword()
         {
+            InitializeComponent();
+            _dialogService = new DialogService();
+        }
+
+
+
+        private async void Button_Click_Add(object sender, RoutedEventArgs e)
+        {
+            // Check password confirmation value
+            if (password != confirmationPassword)
+            {
+                _dialogService.ShowMessage("Les mots de passe ne correspondent pas. Veuillez vérifier que les deux mots de passe sont identiques.");
+            }
+
             /* TODO */
             if (title != null && password != null)
             {
                 Password passwordBody = new Password(null, title, password, notes, username, link);
-                /*Trace.WriteLine(userBase.Password, userBase.Email);*/
+
                 ApiResponse<Password> ApiResponse = await Api.CreateItemsAsync("/api/password", passwordBody, true);
 
-                MessageBox.Show(ApiResponse.StatusCode.ToString());
-                /*Trace.WriteLine(ApiResponse.StatusCode);*/
                 if (ApiResponse.StatusCode.Equals(200))
                 {
-                    NavigationService.Navigate(new Home());
+                    NavigationService.Navigate(new Page1());
+                } else
+                {
+                    _dialogService.ShowMessage($"Le mot de passe n'a pas pu être créé, serveur réponse code : {ApiResponse.StatusCode}");
                 }
             } else
-            { 
-                // TODO Create modal to warn user if require field is empty
+            {
+                _dialogService.ShowMessage("Mot de passe ou titre vides, veuillez remplir ses 2 champs obligatoires");
                 Console.WriteLine("Password or title field empty");
             }
 
@@ -61,7 +74,7 @@ namespace NextPassword.MVVM.Views
 
         private void TextBox_TextChanged_Title(object sender, TextChangedEventArgs e)
         {
-            Title = TitlePassword.Text;
+            title = TitlePassword.Text;
         }
 
         private void TextBox_TextChanged_Link(object sender, TextChangedEventArgs e)
