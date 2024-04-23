@@ -55,15 +55,18 @@ namespace NextPassword.MVVM.Views
         private async void passwordList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Password selectedPassword = (Password)passwordList.SelectedItem;
-            string passwordId = selectedPassword.Id;
-
-            ApiResponse<Password> response = await GetPasswordDetails(passwordId);
-
-            if (response.StatusCode == 200)
+            if(selectedPassword != null)
             {
-                txtUsername.Text = response.Results.Username;
-                txtUrl.Text = response.Results.Url;
-                txtNotes.Text = response.Results.Notes;
+                string passwordId = selectedPassword.Id;
+
+                ApiResponse<Password> response = await GetPasswordDetails(passwordId);
+
+                if (response.StatusCode == 200)
+                {
+                    txtUsername.Text = response.Results.Username;
+                    txtUrl.Text = response.Results.Url;
+                    txtNotes.Text = response.Results.Notes;
+                }
             }
         }
 

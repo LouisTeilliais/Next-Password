@@ -33,7 +33,7 @@ namespace NextPassword.MVVM.Views
 
                     if (ApiResponse.StatusCode.Equals(200))
                     {
-                        NavigationService.Navigate(new Page1());
+                        NavigationService.Navigate(new Home());
                     } else
                     {
                         _dialogService.ShowMessage($"Connexion impossible avec l'utilisateur possédant l'email suivant : {email}");

@@ -1,0 +1,15 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace NextPassword.MVVM.Models
+{
+    public class Token
+    {
+        public string? id { get; set; }
+        public string? tokenValue { get; set; }
+        public string? passwordId { get; set; }
+    }
+}

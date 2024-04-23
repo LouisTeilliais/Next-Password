@@ -52,13 +52,13 @@ namespace NextPassword.MVVM.Views
             /* TODO */
             if (title != null && password != null)
             {
-                Password passwordBody = new Password(null, title, password, notes, username, link);
+                Password passwordBody = new Password(null, title, password, notes, username, link, null);
 
                 ApiResponse<Password> ApiResponse = await Api.CreateItemsAsync("/api/password", passwordBody, true);
 
                 if (ApiResponse.StatusCode.Equals(200))
                 {
-                    NavigationService.Navigate(new Page1());
+                    NavigationService.Navigate(new Home());
                 } else
                 {
                     _dialogService.ShowMessage($"Le mot de passe n'a pas pu être créé, serveur réponse code : {ApiResponse.StatusCode}");

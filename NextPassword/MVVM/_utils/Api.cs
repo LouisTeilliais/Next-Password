@@ -101,7 +101,7 @@ namespace NextPassword.MVVM._utils
                     apiResponse.SetApiResponse((int)response.StatusCode, createdItem);
 
                     // Ajoute le token de connexion dans les cookies (tableau de Cookies) lors de la connexion
-                    if (isCookieNecessary == false)
+                    if (isCookieNecessary == false && response.Headers.Contains("Set-Cookie"))
                     {
                         var cookies = response.Headers.GetValues("Set-Cookie");
                         CookieManager.SetCookies(cookies);
