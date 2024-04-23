@@ -51,5 +51,29 @@ namespace NextPassword.MVVM.Views
                 return new List<Password>();
             }
         }
+
+        private async void passwordList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Password selectedPassword = (Password)passwordList.SelectedItem;
+            string passwordId = selectedPassword.Id;
+
+            ApiResponse<Password> response = await GetPasswordDetails(passwordId);
+
+            if (response.StatusCode == 200)
+            {
+                txtUsername.Text = response.Results.Username;
+                txtUrl.Text = response.Results.Url;
+                txtNotes.Text = response.Results.Notes;
+            }
+        }
+
+        private async Task<ApiResponse<Password>> GetPasswordDetails(string passwordId)
+        {
+            string path = $"/api/password/{passwordId}";
+            var api = new Api<Password>();
+            var response = await api.GetItemsAsync(path, true);
+
+            return response;
+        }
     }
 }
