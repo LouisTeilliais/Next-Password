@@ -38,10 +38,22 @@
                 <StackPanel VerticalAlignment="Center" Margin="75 0">
                     <TextBox x:Name="password_title" BorderThickness="0 0 0 1.5" BorderBrush="#C5C8CC" materialDesign:HintAssist.FloatingOffset="0,-20" materialDesign:HintAssist.Hint="Title" Text="Titre"  />
                     <TextBox x:Name="password_username" BorderThickness="0 0 0 1.5" BorderBrush="#C5C8CC" materialDesign:HintAssist.FloatingOffset="0,-20" materialDesign:HintAssist.Hint="Username" Text="Nom d'utilisateur" Margin="0 27 0 27" />
-                    <PasswordBox x:Name="password_password" BorderThickness="0 0 0 1.5" BorderBrush="#C5C8CC" materialDesign:HintAssist.FloatingOffset="0,-18" materialDesign:HintAssist.Hint="Password" Password="Mot de passe"/>
+                    <StackPanel Orientation="Horizontal">
+                        <PasswordBox x:Name="password_password" BorderThickness="0 0 0 1.5" BorderBrush="#C5C8CC" materialDesign:HintAssist.FloatingOffset="0,-18" materialDesign:HintAssist.Hint="Password" Password="Mot de passe" MouseDoubleClick="Copy_Password"/>
+                        <TextBox x:Name="password_show" Text="{Binding Password, Mode=TwoWay, ElementName=password_password}" BorderThickness="0 0 0 1.5" BorderBrush="#C5C8CC" materialDesign:HintAssist.FloatingOffset="0,-20" materialDesign:HintAssist.Hint="password_show" Visibility="Collapsed" MouseDoubleClick="Copy_Password"/>
+                        <ToggleButton x:Name="showPasswordToggle" VerticalAlignment="Center" Checked="showPasswordToggle_Checked" Unchecked="showPasswordToggle_Unchecked">
+                            <ToggleButton.Content>
+                                <TextBlock FontSize="16">
+                                    <Run Text="👁️" /> <!-- Utilisez votre emoji ici -->
+                                </TextBlock>
+                            </ToggleButton.Content>
+                        </ToggleButton>
+                    </StackPanel>
                     <TextBox x:Name="password_url" BorderThickness="0 0 0 1.5" BorderBrush="#C5C8CC" materialDesign:HintAssist.FloatingOffset="0,-20" materialDesign:HintAssist.Hint="URL" Text="URL" Margin="0 27 0 27" />
                     <TextBox x:Name="password_notes" BorderThickness="0 0 0 1.5" BorderBrush="#C5C8CC" materialDesign:HintAssist.FloatingOffset="0,-20" materialDesign:HintAssist.Hint="Notes" Text="Notes" />
                 </StackPanel>
+
+
             </Grid>
         </Border>
 

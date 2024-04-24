@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using static MaterialDesignThemes.Wpf.Theme;
 
 namespace NextPassword.MVVM.Views
 {
@@ -72,6 +73,7 @@ namespace NextPassword.MVVM.Views
                     password_url.Text = response.Results.Url;
                     password_notes.Text = response.Results.Notes;
                     password_password.Password = DecryptPassword(response.Results.PasswordHash, response.Results.Token.tokenValue);
+                    password_show.Text = DecryptPassword(response.Results.PasswordHash, response.Results.Token.tokenValue);
                 }
             }
         }
@@ -118,6 +120,29 @@ namespace NextPassword.MVVM.Views
                 Array.Resize(ref key, keySize);
                 return key;
             }
+        }
+
+        private void showPasswordToggle_Checked(object sender, RoutedEventArgs e)
+        {
+            password_password.Visibility = System.Windows.Visibility.Collapsed;
+            password_show.Visibility = System.Windows.Visibility.Visible;
+
+            password_show.Focus();
+        }
+
+        private void showPasswordToggle_Unchecked(object sender, RoutedEventArgs e)
+        {
+            password_password.Visibility = System.Windows.Visibility.Visible;
+            password_show.Visibility = System.Windows.Visibility.Collapsed;
+
+            password_password.Focus();
+        }
+
+        private void Copy_Password(object sender, RoutedEventArgs e)
+        {
+            string password = password_password.Password;
+            Clipboard.SetText(password);
+            MessageBox.Show("Mot de passe copié dans le presse-papiers !");
         }
     }
 }

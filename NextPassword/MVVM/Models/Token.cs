@@ -8,8 +8,6 @@ namespace NextPassword.MVVM.Models
 {
     public class Token
     {
-        public string? id { get; set; }
         public string? tokenValue { get; set; }
-        public string? passwordId { get; set; }
     }
 }
