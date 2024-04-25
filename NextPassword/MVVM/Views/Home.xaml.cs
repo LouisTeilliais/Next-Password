@@ -81,7 +81,9 @@ namespace NextPassword.MVVM.Views
                         // Change password field value by new values inserted
                         SetPasswordFieldValue(SelectedPasswordDetails);
                         SetUpdateMode();
-                    } else
+                        NavigationService.Navigate(new Home());
+                    }
+                    else
                     {
                         _dialogService.ShowMessage($"Serveur erreur {updatedPassword.StatusCode}");
                     }
@@ -215,7 +217,6 @@ namespace NextPassword.MVVM.Views
             string path = $"/api/password/{passwordId}";
             var api = new Api<Password>();
             var response = await api.UpdateItemsAsync(path, newPassword, true);
-
             return response;
         }
 

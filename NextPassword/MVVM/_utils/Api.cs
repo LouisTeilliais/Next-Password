@@ -153,7 +153,7 @@ namespace NextPassword.MVVM._utils
                     }
                 }
 
-                HttpResponseMessage response = await client.PutAsJsonAsync(path, items);
+                HttpResponseMessage response = await client.PutAsJsonAsync(baseUrl + path, items);
 
                 if (response.IsSuccessStatusCode)
                 {

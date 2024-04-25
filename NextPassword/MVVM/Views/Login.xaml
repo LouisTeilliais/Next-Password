@@ -38,7 +38,7 @@
         <Image Height="100" Width="100" Margin="356,31,344,319" Source="C:\Users\lteilliais\Documents\Ynov\Next-Password\NextPassword\MVVM\Images\logo.png"/>
         <TextBox x:Name="Email" Tag="Email" HorizontalAlignment="Center" VerticalContentAlignment="Center" Margin="0,175,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="176" Height="36" Padding="4,0,0,0" TextChanged="TextBox_TextChanged_Email" Style="{StaticResource PlaceholderTextBoxStyle}"/>
 
-        <TextBox x:Name="Password" Tag="Mot de passe" HorizontalAlignment="Center" VerticalContentAlignment="Center" Margin="0,216,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="176" Height="37" Padding="4,0,0,0" TextChanged="TextBox_TextChanged_Password" Style="{StaticResource PlaceholderTextBoxStyle}" />
+        <PasswordBox x:Name="Password" Tag="Mot de passe" HorizontalAlignment="Center" VerticalContentAlignment="Center" Margin="0,216,0,0" VerticalAlignment="Top" Width="176" Height="37" Padding="4,0,0,0" PasswordChanged="Password_PasswordChanged"/>
         <Button Foreground="White" Background="#3B97CB" Content="Se connecter" HorizontalAlignment="Center" Margin="0,258,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.918,0.695" Click="Button_Click" Width="176" Height="33"/>
         
         <TextBlock HorizontalAlignment="Left" Height="18" Margin="330,296,0,0" TextWrapping="Wrap" Text="Pas de compte ? " VerticalAlignment="Top" Width="93"/>

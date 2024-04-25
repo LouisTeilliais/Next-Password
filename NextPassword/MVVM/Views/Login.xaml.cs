@@ -59,10 +59,10 @@ namespace NextPassword.MVVM.Views
             email = Email.Text;
         }
 
-        private void TextBox_TextChanged_Password(object sender, TextChangedEventArgs e)
+        private void Password_PasswordChanged(object sender, RoutedEventArgs e)
         {
-            password = Password.Text;
+            MessageBox.Show(Password.Password);
+            password = Password.Password;
         }
-
     }
 }
