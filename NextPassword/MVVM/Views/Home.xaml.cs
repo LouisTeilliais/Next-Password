@@ -279,22 +279,34 @@ namespace NextPassword.MVVM.Views
 
         private void TextBox_TextChanged_Title(object sender, TextChangedEventArgs e)
         {
-            SelectedPasswordDetails.Title = password_username.Text;
+            if (SelectedPasswordDetails != null)
+            {
+                SelectedPasswordDetails.Title = password_title.Text;
+            }
         }
 
         private void TextBox_TextChanged_Link(object sender, TextChangedEventArgs e)
         {
-            SelectedPasswordDetails.Url = password_url.Text;
+            if(SelectedPasswordDetails != null)
+            {
+                SelectedPasswordDetails.Url = password_url.Text;
+            }
         }
 
         private void TextBox_TextChanged_Username(object sender, TextChangedEventArgs e)
         {
-            SelectedPasswordDetails.Username = password_username.Text;
+            if (SelectedPasswordDetails != null)
+            {
+                SelectedPasswordDetails.Username = password_username.Text;
+            }
         }
 
         private void TextBox_TextChanged_Note(object sender, TextChangedEventArgs e)
         {
-            SelectedPasswordDetails.Notes = password_notes.Text;
+            if (SelectedPasswordDetails != null)
+            {
+                SelectedPasswordDetails.Notes = password_notes.Text;
+            }
         }
     }
 }
