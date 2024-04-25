@@ -29,7 +29,7 @@ namespace NextPassword.MVVM._utils
 
             try
             {
-                // Ajout du token dans la requête si c'est nécessaire
+                // Token added in header if necessary
                 if (isCookieNecessary == true)
                 {
                     var cookies = CookieManager.GetCookies();
@@ -84,7 +84,7 @@ namespace NextPassword.MVVM._utils
                 });
                 var data = new StringContent(jsonItems, Encoding.UTF8, "application/json");
 
-                // Ajout du token dans la requête si c'est nécessaire
+                // Token added in header if necessary
                 if (isCookieNecessary == true)
                 {
                     var cookies = CookieManager.GetCookies();
@@ -110,7 +110,7 @@ namespace NextPassword.MVVM._utils
 
                     apiResponse.SetApiResponse((int)response.StatusCode, createdItem);
 
-                    // Ajoute le token de connexion dans les cookies (tableau de Cookies) lors de la connexion
+                    // Adds the connection token to the cookies (Cookies table) during connection
                     if (isCookieNecessary == false && response.Headers.Contains("Set-Cookie"))
                     {
                         var cookies = response.Headers.GetValues("Set-Cookie");
@@ -142,7 +142,7 @@ namespace NextPassword.MVVM._utils
 
             try
             {
-                // Ajout du token dans la requête si c'est nécessaire
+                // Token added in header if necessary
                 if (isCookieNecessary == true)
                 {
                     var cookies = CookieManager.GetCookies();
@@ -170,7 +170,7 @@ namespace NextPassword.MVVM._utils
 
                     apiResponse.SetApiResponse((int)response.StatusCode, updatedItem);
 
-                    // Ajoute le token de connexion dans les cookies (tableau de Cookies) lors de la connexion
+                    // Adds the connection token to the cookies (Cookies table) during connection
                     if (isCookieNecessary == false && response.Headers.Contains("Set-Cookie"))
                     {
                         var cookies = response.Headers.GetValues("Set-Cookie");
@@ -179,7 +179,7 @@ namespace NextPassword.MVVM._utils
                 }
                 else
                 {
-                    // Si la réponse n'est pas un succès, définissez la réponse API avec le code d'état de la réponse et la valeur par défaut
+                    // If the response is not successful, set the API response with the response status code and the default value
                     apiResponse.SetApiResponse((int)response.StatusCode, default);
                 }
             }
@@ -202,7 +202,7 @@ namespace NextPassword.MVVM._utils
 
             try
             {
-                // Ajout du token dans la requête si c'est nécessaire
+                // Token added in header if necessary
                 if (isCookieNecessary == true)
                 {
                     var cookies = CookieManager.GetCookies();
@@ -230,7 +230,7 @@ namespace NextPassword.MVVM._utils
 
                     apiResponse.SetApiResponse((int)response.StatusCode, deletedItem);
 
-                    // Ajoute le token de connexion dans les cookies (tableau de Cookies) lors de la connexion
+                    // Adds the connection token to the cookies (Cookies table) during connection
                     if (isCookieNecessary == false && response.Headers.Contains("Set-Cookie"))
                     {
                         var cookies = response.Headers.GetValues("Set-Cookie");

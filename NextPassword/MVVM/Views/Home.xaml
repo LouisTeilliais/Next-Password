@@ -40,12 +40,11 @@
                 <!--Inputs-->
                 <StackPanel VerticalAlignment="Center" Margin="75,0,75,0" Height="325">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,20" Width="150">
-                        <Button x:Name="can_update_button" Content="🛠️" Margin="15,0,15,0" Width="40" Height="40" FontSize="20" Click="Can_update_password" IsEnabled="False" Foreground="#3B97CB" />
-                        <Button x:Name="delete_button" Content="🗑️" Margin="15,0,15,0" Width="40" Height="40" FontSize="20" Click="Delete_password" IsEnabled="False" Foreground="#3B97CB"/>
+                        <Button x:Name="delete_button" Content="🗑️" Margin="50,0,0,0" Width="40" Height="40" FontSize="20" HorizontalAlignment="Center" HorizontalContentAlignment="Center" Click="Delete_password" IsEnabled="False" Foreground="#3B97CB"/>
                     </StackPanel>
 
 
-                    <TextBox x:Name="password_title" BorderThickness="0 0 0 1.5" BorderBrush="#C5C8CC" materialDesign:HintAssist.FloatingOffset="0,-20" materialDesign:HintAssist.Hint="Title" Text="Titre" TextChanged="TextBox_TextChanged_Title" />
+                    <TextBox x:Name="password_title" BorderThickness="0 0 0 1.5" BorderBrush="#C5C8CC" materialDesign:HintAssist.FloatingOffset="0,-20" materialDesign:HintAssist.Hint="Title" Text="Titre" TextChanged="TextBox_TextChanged_Title"/>
                     <TextBox x:Name="password_username" BorderThickness="0 0 0 1.5" BorderBrush="#C5C8CC" materialDesign:HintAssist.FloatingOffset="0,-20" materialDesign:HintAssist.Hint="Username" Text="Nom d'utilisateur" Margin="0 27 0 27" TextChanged="TextBox_TextChanged_Username"/>
                     <StackPanel Orientation="Horizontal">
                         <PasswordBox x:Name="password_password" BorderThickness="0 0 0 1.5" BorderBrush="#C5C8CC" VerticalAlignment="Center" MaxWidth="150" materialDesign:HintAssist.FloatingOffset="0,-18" materialDesign:HintAssist.Hint="Password" Password="Mot de passe" MouseDoubleClick="Copy_Password"/>

@@ -14,6 +14,7 @@ using System.Security.Cryptography;
 using System.Text;
 using static MaterialDesignThemes.Wpf.Theme;
 using NextPassword.MVVM._utils.Interface;
+using System.ComponentModel;
 
 namespace NextPassword.MVVM.Views
 {
@@ -29,9 +30,11 @@ namespace NextPassword.MVVM.Views
         protected string title;
         protected string? link;
         protected string password;
-        // protected string confirmationPassword;
         protected string? notes;
         protected string? username;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
 
         public Home()
         {
@@ -46,16 +49,11 @@ namespace NextPassword.MVVM.Views
             List<Password> dataArray = await FetchDataFromAPI();
 
 
-            // Afficher les données dans le TextBlock
+            // Display data in TextBox
             passwordList.ItemsSource = dataArray;
 
         }
 
-        public void Can_update_password(object sender, RoutedEventArgs e)
-        {
-            SetUpdateMode();
-            update_button.IsEnabled = true;
-        }
 
         public async void Update_password(object sender, RoutedEventArgs e)
         {
@@ -81,7 +79,6 @@ namespace NextPassword.MVVM.Views
 
                         // Change password field value by new values inserted
                         SetPasswordFieldValue(SelectedPasswordDetails);
-                        SetUpdateMode();
                         NavigationService.Navigate(new Home());
                     }
                     else
@@ -162,14 +159,17 @@ namespace NextPassword.MVVM.Views
                 {
                     SetPasswordFieldValue(SelectedPasswordDetails);
 
-                    if (!can_update_button.IsEnabled) {
-                        can_update_button.IsEnabled = true;
-                    }
-
                     if (!delete_button.IsEnabled)
                     {
                         delete_button.IsEnabled = true;
                     }
+
+                    if (!update_button.IsEnabled)
+                    {
+                        update_button.IsEnabled = true;
+                    }
+
+                    SetUpdateMode();
                 }
             }
         }
@@ -329,7 +329,8 @@ namespace NextPassword.MVVM.Views
 
             SelectedPasswordDetails.PasswordHash = newPasswordGenerated;
 
-            password_password.Password = SelectedPasswordDetails.PasswordHash;
+            password_password.Password = newPasswordGenerated;
         }
+
     }
 }

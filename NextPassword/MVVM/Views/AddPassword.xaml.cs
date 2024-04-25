@@ -50,7 +50,6 @@ namespace NextPassword.MVVM.Views
                 _dialogService.ShowMessage("Les mots de passe ne correspondent pas. Veuillez vérifier que les deux mots de passe sont identiques.");
             }
 
-            /* TODO */
             if (title != null && password != null)
             {
                 Password passwordBody = new Password(null, title, password, notes, username, link, null);
@@ -91,7 +90,6 @@ namespace NextPassword.MVVM.Views
         private void TextBox_TextChanged_PasswordConfirmation(object sender, TextChangedEventArgs e)
         {
             confirmationPassword = NewPasswordConfirmation.Text;
-            /*SubmitButton.IsEnabled = password.Length >= 14;*/
         }
 
         private void TextBox_TextChanged_Username(object sender, TextChangedEventArgs e)
