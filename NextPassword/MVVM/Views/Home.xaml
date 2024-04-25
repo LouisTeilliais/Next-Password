@@ -38,31 +38,33 @@
 
 
                 <!--Inputs-->
-                <StackPanel VerticalAlignment="Center" Margin="75,0,75,0" Height="316">
+                <StackPanel VerticalAlignment="Center" Margin="75,0,75,0" Height="325">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,20" Width="150">
-                        <Button x:Name="can_update_button" Content="🛠️" Margin="15,0,15,0" Width="40" Height="40" FontSize="20" Click="Can_update_password" IsEnabled="False"/>
-                        <Button x:Name="delete_button" Content="🗑️" Margin="15,0,15,0" Width="40" Height="40" FontSize="20" Click="Delete_password" IsEnabled="False"/>
+                        <Button x:Name="can_update_button" Content="🛠️" Margin="15,0,15,0" Width="40" Height="40" FontSize="20" Click="Can_update_password" IsEnabled="False" Foreground="#3B97CB" />
+                        <Button x:Name="delete_button" Content="🗑️" Margin="15,0,15,0" Width="40" Height="40" FontSize="20" Click="Delete_password" IsEnabled="False" Foreground="#3B97CB"/>
                     </StackPanel>
 
 
                     <TextBox x:Name="password_title" BorderThickness="0 0 0 1.5" BorderBrush="#C5C8CC" materialDesign:HintAssist.FloatingOffset="0,-20" materialDesign:HintAssist.Hint="Title" Text="Titre" TextChanged="TextBox_TextChanged_Title" />
                     <TextBox x:Name="password_username" BorderThickness="0 0 0 1.5" BorderBrush="#C5C8CC" materialDesign:HintAssist.FloatingOffset="0,-20" materialDesign:HintAssist.Hint="Username" Text="Nom d'utilisateur" Margin="0 27 0 27" TextChanged="TextBox_TextChanged_Username"/>
                     <StackPanel Orientation="Horizontal">
-                        <PasswordBox x:Name="password_password" BorderThickness="0 0 0 1.5" BorderBrush="#C5C8CC" materialDesign:HintAssist.FloatingOffset="0,-18" materialDesign:HintAssist.Hint="Password" Password="Mot de passe" MouseDoubleClick="Copy_Password"/>
+                        <PasswordBox x:Name="password_password" BorderThickness="0 0 0 1.5" BorderBrush="#C5C8CC" VerticalAlignment="Center" MaxWidth="150" materialDesign:HintAssist.FloatingOffset="0,-18" materialDesign:HintAssist.Hint="Password" Password="Mot de passe" MouseDoubleClick="Copy_Password"/>
                         <TextBox x:Name="password_show" Text="{Binding Password, Mode=TwoWay, ElementName=password_password}" BorderThickness="0 0 0 1.5" BorderBrush="#C5C8CC" materialDesign:HintAssist.FloatingOffset="0,-20" materialDesign:HintAssist.Hint="password_show" Visibility="Collapsed" MouseDoubleClick="Copy_Password"/>
-                        <ToggleButton x:Name="showPasswordToggle" VerticalAlignment="Center" Checked="showPasswordToggle_Checked" Unchecked="showPasswordToggle_Unchecked">
+                        <ToggleButton x:Name="showPasswordToggle" VerticalAlignment="Center" Checked="showPasswordToggle_Checked" Unchecked="showPasswordToggle_Unchecked" Margin="5,0,0,0">
                             <ToggleButton.Content>
-                                <TextBlock FontSize="16">
+                                <TextBlock FontSize="16" Foreground="#3B97CB">
                                     <Run Text="👁️" /> <!-- Utilisez votre emoji ici -->
                                 </TextBlock>
                             </ToggleButton.Content>
                         </ToggleButton>
+                        <Button x:Name="GeneratePassword" Foreground="White" Background="#3B97CB" Content="🔧" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="-1.918,0.695" Width="30" Height="25" Margin="15,0,0,0" Click="Button_Generate_Password"/>
+
                     </StackPanel>
                     <TextBox x:Name="password_url" BorderThickness="0 0 0 1.5" BorderBrush="#C5C8CC" materialDesign:HintAssist.FloatingOffset="0,-20" materialDesign:HintAssist.Hint="URL" Text="URL" Margin="0 27 0 27" TextChanged="TextBox_TextChanged_Link" />
                     <TextBox x:Name="password_notes" BorderThickness="0 0 0 1.5" BorderBrush="#C5C8CC" materialDesign:HintAssist.FloatingOffset="0,-20" materialDesign:HintAssist.Hint="Notes" Text="Notes" TextChanged="TextBox_TextChanged_Note"/>
-                    
 
-                    <Button x:Name="update_button" Content="✅" Margin="15,12,15,0" Width="60" Height="40" FontSize="20" Click="Update_password" IsEnabled="True" />
+
+                    <Button x:Name="update_button" Content="✅" Margin="15,12,15,0" Width="60" Height="40" FontSize="20" Click="Update_password" IsEnabled="False" Foreground="#3B97CB" />
                 </StackPanel>
 
 

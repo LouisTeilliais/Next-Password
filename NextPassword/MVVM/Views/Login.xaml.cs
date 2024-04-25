@@ -61,7 +61,6 @@ namespace NextPassword.MVVM.Views
 
         private void Password_PasswordChanged(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(Password.Password);
             password = Password.Password;
         }
     }

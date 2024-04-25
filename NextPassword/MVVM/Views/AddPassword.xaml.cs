@@ -4,6 +4,7 @@ using NextPassword.MVVM.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.ObjectiveC;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -98,6 +99,11 @@ namespace NextPassword.MVVM.Views
             username = UsernamePassord.Text;
         }
 
+        private void TextBox_TextChanged_Notes(object sender, RoutedEventArgs e)
+        {
+            notes = NotePassword.Text;
+        }
+
         private void Button_Back_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new Home());
@@ -112,6 +118,22 @@ namespace NextPassword.MVVM.Views
         {
             Button button = (Button)sender;
             button.ToolTip = null;
+        }
+
+        private void Button_Generate_Password(object sender, RoutedEventArgs e)
+        {
+            // Can set password length 
+            string newPasswordGenerated = Generation.GenerateRandomPassword();
+            if (newPasswordGenerated == null)
+            {
+                _dialogService.ShowMessage("Demande de génération d'un mot de passe trop court");
+                return;
+            }
+            password = Generation.GenerateRandomPassword();
+            confirmationPassword = password;
+
+            NewPassword.Text = password;
+            NewPasswordConfirmation.Text = confirmationPassword;
         }
 
 

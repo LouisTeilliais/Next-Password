@@ -54,6 +54,7 @@ namespace NextPassword.MVVM.Views
         public void Can_update_password(object sender, RoutedEventArgs e)
         {
             SetUpdateMode();
+            update_button.IsEnabled = true;
         }
 
         public async void Update_password(object sender, RoutedEventArgs e)
@@ -308,6 +309,27 @@ namespace NextPassword.MVVM.Views
             {
                 SelectedPasswordDetails.Notes = password_notes.Text;
             }
+        }
+
+        private void Button_Generate_Password(object sender, RoutedEventArgs e)
+        {
+            // Can set password length 
+            string newPasswordGenerated = Generation.GenerateRandomPassword();
+            if (newPasswordGenerated == null)
+            {
+                _dialogService.ShowMessage("Demande de génération d'un mot de passe trop court");
+                return;
+            }
+
+            if (SelectedPasswordDetails == null)
+            {
+                _dialogService.ShowMessage("Pas de mot de passe sélectionné");
+                return;
+            }
+
+            SelectedPasswordDetails.PasswordHash = newPasswordGenerated;
+
+            password_password.Password = SelectedPasswordDetails.PasswordHash;
         }
     }
 }
