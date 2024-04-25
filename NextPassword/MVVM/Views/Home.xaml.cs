@@ -13,18 +13,33 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using static MaterialDesignThemes.Wpf.Theme;
+using NextPassword.MVVM._utils.Interface;
 
 namespace NextPassword.MVVM.Views
 {
     public partial class Home : Page
     {
+        public Password SelectedPasswordDetails { get; set; }
+        public ObservableCollection<Password> PasswordList { get; set; }
+
+        private readonly IDialogService _dialogService;
+
+        private bool isFieldEnabled;
+
+        protected string title;
+        protected string? link;
+        protected string password;
+        // protected string confirmationPassword;
+        protected string? notes;
+        protected string? username;
+
         public Home()
         {
             InitializeComponent();
             PasswordList = new ObservableCollection<Password>();
+            _dialogService = new DialogService();
+            isFieldEnabled = false;
         }
-
-        public ObservableCollection<Password> PasswordList { get; set; }
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
@@ -34,6 +49,78 @@ namespace NextPassword.MVVM.Views
             // Afficher les données dans le TextBlock
             passwordList.ItemsSource = dataArray;
 
+        }
+
+        public void Can_update_password(object sender, RoutedEventArgs e)
+        {
+            SetUpdateMode();
+        }
+
+        public async void Update_password(object sender, RoutedEventArgs e)
+        {
+            if (password_password.Password == null)
+            {
+                _dialogService.ShowMessage("Votre mot de passe est vide, veuillez le remplir");
+                return;
+            }
+
+            SelectedPasswordDetails.PasswordHash = password_password.Password;
+
+            if (SelectedPasswordDetails != null)
+            {
+                string? passwordId = SelectedPasswordDetails.Id != null ? SelectedPasswordDetails.Id : null;
+
+                if (passwordId != null)
+                {
+                    ApiResponse<Password> updatedPassword = await UpdatePassword(passwordId, SelectedPasswordDetails);
+
+                    if (updatedPassword.StatusCode == 200)
+                    {
+                        SelectedPasswordDetails = updatedPassword.Results;
+
+                        // Change password field value by new values inserted
+                        SetPasswordFieldValue(SelectedPasswordDetails);
+                        SetUpdateMode();
+                    } else
+                    {
+                        _dialogService.ShowMessage($"Serveur erreur {updatedPassword.StatusCode}");
+                    }
+                    
+                } else
+                {
+                    _dialogService.ShowMessage("Pas de mot de passe trouvé pour la suppression");
+                }
+            } else
+            {
+                _dialogService.ShowMessage("Pas de nouvelle modification à apporter");
+            }
+            return;
+        }
+
+        public async void Delete_password(object sender, RoutedEventArgs e)
+        {
+            if (SelectedPasswordDetails != null)
+            {
+                string? passwordId = SelectedPasswordDetails.Id != null ? SelectedPasswordDetails.Id : null;
+                
+                if (passwordId != null)
+                {
+                    ApiResponse<Password> deletePassword = await DeletePassword(passwordId);
+
+                    if (deletePassword.StatusCode == 200)
+                    {
+                        NavigationService.Navigate(new Home());
+                    }
+                    
+                } else
+                {
+                    _dialogService.ShowMessage("Pas de mot de passe trouvé à effacer");
+                }
+                
+            } else
+            {
+                _dialogService.ShowMessage("Aucun mot de passe sélectionné");
+            }
         }
 
         public void Add_password(object sender, RoutedEventArgs e)
@@ -66,16 +153,43 @@ namespace NextPassword.MVVM.Views
 
                 ApiResponse<Password> response = await GetPasswordDetails(passwordId);
 
+                SelectedPasswordDetails = response.Results;
+
                 if (response.StatusCode == 200)
                 {
-                    password_title.Text = response.Results.Title;
-                    password_username.Text = response.Results.Username;
-                    password_url.Text = response.Results.Url;
-                    password_notes.Text = response.Results.Notes;
-                    password_password.Password = DecryptPassword(response.Results.PasswordHash, response.Results.Token.tokenValue);
-                    password_show.Text = DecryptPassword(response.Results.PasswordHash, response.Results.Token.tokenValue);
+                    SetPasswordFieldValue(SelectedPasswordDetails);
+
+                    if (!can_update_button.IsEnabled) {
+                        can_update_button.IsEnabled = true;
+                    }
+
+                    if (!delete_button.IsEnabled)
+                    {
+                        delete_button.IsEnabled = true;
+                    }
                 }
             }
+        }
+
+        private void SetPasswordFieldValue(Password password)
+        {
+            password_title.Text = password.Title;
+            password_username.Text = password.Username;
+            password_url.Text = password.Url;
+            password_notes.Text = password.Notes;
+            password_password.Password = DecryptPassword(password.PasswordHash, password.Token.tokenValue);
+            password_show.Text = DecryptPassword(password.PasswordHash, password.Token.tokenValue);
+        }
+
+        private void SetUpdateMode()
+        {
+            isFieldEnabled = !isFieldEnabled;
+
+            password_title.IsEnabled = isFieldEnabled;
+            password_username.IsEnabled = isFieldEnabled;
+            password_url.IsEnabled = isFieldEnabled;
+            password_notes.IsEnabled = isFieldEnabled;
+            password_password.IsEnabled = isFieldEnabled;
         }
 
         private async Task<ApiResponse<Password>> GetPasswordDetails(string passwordId)
@@ -83,6 +197,24 @@ namespace NextPassword.MVVM.Views
             string path = $"/api/password/{passwordId}";
             var api = new Api<Password>();
             var response = await api.GetItemsAsync(path, true);
+
+            return response;
+        }
+
+        private async Task<ApiResponse<Password>> DeletePassword(string passwordId)
+        {
+            string path = $"/api/password/{passwordId}";
+            var api = new Api<Password>();
+            var response = await api.DeleteItemsAsync(path, true);
+
+            return response;
+        }
+
+        private async Task<ApiResponse<Password>> UpdatePassword(string passwordId, Password newPassword)
+        {
+            string path = $"/api/password/{passwordId}";
+            var api = new Api<Password>();
+            var response = await api.UpdateItemsAsync(path, newPassword, true);
 
             return response;
         }
@@ -143,6 +275,26 @@ namespace NextPassword.MVVM.Views
             string password = password_password.Password;
             Clipboard.SetText(password);
             MessageBox.Show("Mot de passe copié dans le presse-papiers !");
+        }
+
+        private void TextBox_TextChanged_Title(object sender, TextChangedEventArgs e)
+        {
+            SelectedPasswordDetails.Title = password_username.Text;
+        }
+
+        private void TextBox_TextChanged_Link(object sender, TextChangedEventArgs e)
+        {
+            SelectedPasswordDetails.Url = password_url.Text;
+        }
+
+        private void TextBox_TextChanged_Username(object sender, TextChangedEventArgs e)
+        {
+            SelectedPasswordDetails.Username = password_username.Text;
+        }
+
+        private void TextBox_TextChanged_Note(object sender, TextChangedEventArgs e)
+        {
+            SelectedPasswordDetails.Notes = password_notes.Text;
         }
     }
 }

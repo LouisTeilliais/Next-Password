@@ -27,35 +27,45 @@ namespace NextPassword.MVVM._utils
         {
             ApiResponse<T> apiResponse = new ApiResponse<T>();
 
-            // Ajout du token dans la requête si c'est nécessaire
-            if (isCookieNecessary == true)
+            try
             {
-                var cookies = CookieManager.GetCookies();
-
-                foreach (var cookie in cookies)
+                // Ajout du token dans la requête si c'est nécessaire
+                if (isCookieNecessary == true)
                 {
-                    client.DefaultRequestHeaders.Add("Cookie", cookie);
-                }
-            }
+                    var cookies = CookieManager.GetCookies();
 
-            HttpResponseMessage response = await client.GetAsync(baseUrl + path);
-
-            if (response.IsSuccessStatusCode)
-            {
-                string itemStr = await response.Content.ReadAsStringAsync();
-                T item = default;
-
-                if (!string.IsNullOrEmpty(itemStr))
-                {
-                    item = JsonConvert.DeserializeObject<T>(itemStr);
+                    foreach (var cookie in cookies)
+                    {
+                        client.DefaultRequestHeaders.Add("Cookie", cookie);
+                    }
                 }
 
-                apiResponse.SetApiResponse((int)response.StatusCode, item);
+                HttpResponseMessage response = await client.GetAsync(baseUrl + path);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string itemStr = await response.Content.ReadAsStringAsync();
+
+                    bool isResponseParsable = TypeValidator.TryParseJSON(itemStr);
+
+                    T item = default;
+
+                    if (isResponseParsable)
+                    {
+                        item = JsonConvert.DeserializeObject<T>(itemStr);
+                    }
+
+                    apiResponse.SetApiResponse((int)response.StatusCode, item);
+                }
+                else
+                {
+                    // Set API response if not success
+                    apiResponse.SetApiResponse((int)response.StatusCode, default);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                // Set API response if not success
-                apiResponse.SetApiResponse((int)response.StatusCode, default);
+                throw new Exception($"Get request internal server error : {ex.Message}");
             }
 
             return apiResponse;
@@ -90,11 +100,11 @@ namespace NextPassword.MVVM._utils
                 if (response.IsSuccessStatusCode) {
                     string? createdItemStr = await response.Content.ReadAsStringAsync();
 
-                    bool isResponseExisting = TypeValidator.TryParseJSON(createdItemStr);
+                    bool isResponseParsable = TypeValidator.TryParseJSON(createdItemStr);
                     
                     T createdItem = default;
 
-                    if (isResponseExisting) {
+                    if (isResponseParsable) {
                         createdItem = JsonConvert.DeserializeObject<T>(createdItemStr);
                     }
 
@@ -122,28 +132,50 @@ namespace NextPassword.MVVM._utils
             return apiResponse;
         }
 
-        protected async Task<ApiResponse<T>> UpdateItemsAsync(string path, object items) {
-            ApiResponse<T> apiResponse = new ApiResponse<T>();
-            if (items == null) {
+        public async Task<ApiResponse<T>> UpdateItemsAsync(string path, object items, bool? isCookieNecessary = false) {
+            if (items == null)
+            {
                 throw new ArgumentNullException(nameof(items), "L'argument items ne peut pas être null.");
             }
 
-            // Cast items to IHasId interface to access the ID property
-            if (items is IHasId hasIdItem)
+            ApiResponse<T> apiResponse = new ApiResponse<T>();
+
+            try
             {
-                HttpResponseMessage response = await client.PutAsJsonAsync($"{path}/{hasIdItem.ID}", items);
+                // Ajout du token dans la requête si c'est nécessaire
+                if (isCookieNecessary == true)
+                {
+                    var cookies = CookieManager.GetCookies();
+
+                    foreach (var cookie in cookies)
+                    {
+                        client.DefaultRequestHeaders.Add("Cookie", cookie);
+                    }
+                }
+
+                HttpResponseMessage response = await client.PutAsJsonAsync(path, items);
 
                 if (response.IsSuccessStatusCode)
                 {
-                    string updatedItemStr = await response.Content.ReadAsStringAsync();
+                    string? updatedItemStr = await response.Content.ReadAsStringAsync();
+
+                    bool isResponseParsable = TypeValidator.TryParseJSON(updatedItemStr);
+
                     T updatedItem = default;
 
-                    if (!string.IsNullOrEmpty(updatedItemStr))
+                    if (isResponseParsable)
                     {
                         updatedItem = JsonConvert.DeserializeObject<T>(updatedItemStr);
                     }
 
                     apiResponse.SetApiResponse((int)response.StatusCode, updatedItem);
+
+                    // Ajoute le token de connexion dans les cookies (tableau de Cookies) lors de la connexion
+                    if (isCookieNecessary == false && response.Headers.Contains("Set-Cookie"))
+                    {
+                        var cookies = response.Headers.GetValues("Set-Cookie");
+                        CookieManager.SetCookies(cookies);
+                    }
                 }
                 else
                 {
@@ -151,13 +183,73 @@ namespace NextPassword.MVVM._utils
                     apiResponse.SetApiResponse((int)response.StatusCode, default);
                 }
             }
-            else
+            catch (Exception ex)
             {
-                // Throw an exception or handle the case where items doesn't implement IHasId
-                throw new ArgumentException("The items argument must implement the IHasId interface.", nameof(items));
+                throw new Exception($"Update request internal server error {ex.Message}");
+            }
+            
+            return apiResponse;
+        }
+
+        public async Task<ApiResponse<T>> DeleteItemsAsync(string path, bool? isCookieNecessary = false)
+        {
+            ApiResponse<T> apiResponse = new ApiResponse<T>();
+
+            if (path.Length == 0)
+            {
+                return null;
             }
 
+            try
+            {
+                // Ajout du token dans la requête si c'est nécessaire
+                if (isCookieNecessary == true)
+                {
+                    var cookies = CookieManager.GetCookies();
+
+                    foreach (var cookie in cookies)
+                    {
+                        client.DefaultRequestHeaders.Add("Cookie", cookie);
+                    }
+                }
+
+                HttpResponseMessage response = await client.DeleteAsync($"{baseUrl}{path}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string deleteItemStr = await response.Content.ReadAsStringAsync();
+
+                    bool isResponseParsable = TypeValidator.TryParseJSON(deleteItemStr);
+
+                    T deletedItem = default;
+
+                    if (isResponseParsable)
+                    {
+                        deletedItem = JsonConvert.DeserializeObject<T>(deleteItemStr);
+                    }
+
+                    apiResponse.SetApiResponse((int)response.StatusCode, deletedItem);
+
+                    // Ajoute le token de connexion dans les cookies (tableau de Cookies) lors de la connexion
+                    if (isCookieNecessary == false && response.Headers.Contains("Set-Cookie"))
+                    {
+                        var cookies = response.Headers.GetValues("Set-Cookie");
+                        CookieManager.SetCookies(cookies);
+                    }
+                }
+                else
+                {
+                    // Set API response if not success
+                    apiResponse.SetApiResponse((int)response.StatusCode, default);
+                }
+
+            } 
+            catch (Exception ex)
+            {
+                throw new Exception($"Delete request internal server error {ex.Message}");
+            }
             return apiResponse;
+
         }
     }
 }

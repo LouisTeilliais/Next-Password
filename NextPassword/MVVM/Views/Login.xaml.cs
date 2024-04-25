@@ -29,7 +29,7 @@ namespace NextPassword.MVVM.Views
                 if (email != null && password != null)
                 {
                     UserBase userBase = new UserBase(email, password);
-                    ApiResponse<User> ApiResponse = await Api.CreateItemsAsync("/login", userBase, false);
+                    ApiResponse<User> ApiResponse = await LogUser(userBase);
 
                     if (ApiResponse.StatusCode.Equals(200))
                     {
@@ -44,6 +44,14 @@ namespace NextPassword.MVVM.Views
             {
                 _dialogService.ShowMessage($"Une erreur s'est produite : {ex.Message}");
             }
+        }
+
+        private async Task<ApiResponse<User>> LogUser(UserBase user)
+        {
+            string path = $"/login";
+            var response = await Api.CreateItemsAsync(path, user);
+
+            return response;
         }
 
         private void TextBox_TextChanged_Email(object sender, TextChangedEventArgs e)
