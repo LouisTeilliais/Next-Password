@@ -169,7 +169,7 @@ namespace NextPassword.MVVM.Views
                         update_button.IsEnabled = true;
                     }
 
-                    SetUpdateMode();
+                    /*SetUpdateMode();*/
                 }
             }
         }
@@ -184,7 +184,7 @@ namespace NextPassword.MVVM.Views
             password_show.Text = DecryptPassword(password.PasswordHash, password.Token.tokenValue);
         }
 
-        private void SetUpdateMode()
+/*        private void SetUpdateMode()
         {
             isFieldEnabled = !isFieldEnabled;
 
@@ -193,7 +193,7 @@ namespace NextPassword.MVVM.Views
             password_url.IsEnabled = isFieldEnabled;
             password_notes.IsEnabled = isFieldEnabled;
             password_password.IsEnabled = isFieldEnabled;
-        }
+        }*/
 
         private async Task<ApiResponse<Password>> GetPasswordDetails(string passwordId)
         {
